@@ -454,8 +454,7 @@ def main():
         fonts_dst.mkdir(exist_ok=True)
         for f in fonts_src.glob("*.woff2"):
             shutil.copy(f, fonts_dst / f.name)
-        for f in fonts_src.glob("*.woff"):
-            shutil.copy(f, fonts_dst / f.name)
+        # 只带 woff2（katex css 优先用 woff2），减半体积
         # 让 css 里的 fonts/ 路径可用
         css = (out / "assets" / "katex" / "katex.min.css").read_text(encoding="utf-8")
         (out / "assets" / "katex" / "katex.min.css").write_text(css, encoding="utf-8")
