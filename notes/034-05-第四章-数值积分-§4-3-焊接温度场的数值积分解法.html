@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>§4-3 焊接温度场的数值积分解法 · 焊接传热学知识库</title>
+<meta name="description" content="05 第四章 数值积分/§4-3 焊接温度场的数值积分解法">
+<meta property="og:title" content="§4-3 焊接温度场的数值积分解法 · 焊接传热学知识库">
+<meta property="og:description" content="张文钺《焊接传热学》结构化 Obsidian 知识库：7 章 37 节 + 43 概念卡 + 公式库">
+<meta property="og:type" content="article">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%278%27 fill=%27%237c5cff%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2716%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27sans-serif%27%3E焊%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-btn" id="menuBtn" aria-label="目录">☰</button>
+  <a class="brand" href="../index.html">焊接传热学<span class="brand-sub">Obsidian 知识库</span></a>
+  <div class="search-wrap">
+    <input id="searchInput" type="search" placeholder="搜索笔记 / 概念 / 公式…" autocomplete="off">
+    <div id="searchResults" class="search-results"></div>
+  </div>
+  <a class="btn dl" href="https://github.com/2486809961-alt/welding-heat-transfer/releases/latest" target="_blank" rel="noopener">⬇︎ 下载整库</a>
+  <button class="btn ghost" id="themeBtn" aria-label="切换主题">◐</button>
+</header>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <div class="side-inner"><a class="side-home" href="../index.html">🏠 首页</a>
+<div class="side-group">
+<div class="side-group-label">00 索引</div>
+<ul>
+<li><a class="side-link" href="../notes/001-00-%E7%B4%A2%E5%BC%95-%E5%85%A8%E4%B9%A6%E7%9B%AE%E5%BD%95%E4%B8%8E%E9%A1%B5%E7%A0%81%E5%AF%B9%E7%85%A7.html" data-title="全书目录与页码对照">全书目录与页码对照</a></li>
+<li><a class="side-link" href="../notes/002-00-%E7%B4%A2%E5%BC%95-%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%9F%A5%E8%AF%86%E5%BA%93.html" data-title="关于本知识库">关于本知识库</a></li>
+<li><a class="side-link" href="../notes/003-00-%E7%B4%A2%E5%BC%95-%E5%AD%A6%E4%B9%A0%E8%B7%AF%E5%BE%84.html" data-title="学习路径">学习路径</a></li>
+<li><a class="side-link" href="../notes/004-00-%E7%B4%A2%E5%BC%95-%E5%BE%85%E6%A0%A1%E6%B8%85%E5%8D%95.html" data-title="待校清单">待校清单</a></li>
+<li><a class="side-link" href="../notes/005-00-%E7%B4%A2%E5%BC%95-%E6%A6%82%E5%BF%B5%E5%9C%B0%E5%9B%BE.html" data-title="概念地图">概念地图</a></li>
+<li><a class="side-link" href="../notes/006-00-%E7%B4%A2%E5%BC%95-%E7%84%8A%E6%8E%A5%E4%BC%A0%E7%83%AD%E5%AD%A6-MOC.html" data-title="焊接传热学 MOC">焊接传热学 MOC</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">01 绪论</div>
+<ul>
+<li><a class="side-link" href="../notes/007-01-%E7%BB%AA%E8%AE%BA-%E7%BB%AA%E8%AE%BA-%E7%84%8A%E6%8E%A5%E4%BC%A0%E7%83%AD%E5%AD%A6%E7%9A%84%E7%A0%94%E7%A9%B6%E5%AF%B9%E8%B1%A1%E4%B8%8E%E6%96%B9%E6%B3%95.html" data-title="绪论 焊接传热学的研究对象与方法">绪论 焊接传热学的研究对象与方法</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">02 第一章 传热学基础</div>
+<ul>
+<li><a class="side-link" href="../notes/008-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%C2%A71-1-%E7%84%8A%E6%8E%A5%E7%83%AD%E8%BF%87%E7%A8%8B%E7%9A%84%E7%89%B9%E7%82%B9.html" data-title="§1-1 焊接热过程的特点">§1-1 焊接热过程的特点</a></li>
+<li><a class="side-link" href="../notes/009-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%C2%A71-2-%E7%84%8A%E6%8E%A5%E7%83%AD%E6%BA%90%E5%92%8C%E7%84%8A%E6%8E%A5%E7%83%AD%E6%95%88%E7%8E%87.html" data-title="§1-2 焊接热源和焊接热效率">§1-2 焊接热源和焊接热效率</a></li>
+<li><a class="side-link" href="../notes/010-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%C2%A71-3-%E7%83%AD%E4%BC%A0%E9%80%92%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E5%BC%8F.html" data-title="§1-3 热传递的基本方式">§1-3 热传递的基本方式</a></li>
+<li><a class="side-link" href="../notes/011-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%C2%A71-4-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E5%8F%8A%E5%85%B6%E5%BD%B1%E5%93%8D%E5%9B%A0%E7%B4%A0.html" data-title="§1-4 焊接温度场及其影响因素">§1-4 焊接温度场及其影响因素</a></li>
+<li><a class="side-link" href="../notes/012-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%C2%A71-5-%E7%84%8A%E6%8E%A5%E4%BC%A0%E7%83%AD%E8%AE%A1%E7%AE%97%E5%9F%BA%E6%9C%AC%E5%85%AC%E5%BC%8F.html" data-title="§1-5 焊接传热计算基本公式">§1-5 焊接传热计算基本公式</a></li>
+<li><a class="side-link" href="../notes/013-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%C2%A71-6-%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6.html" data-title="§1-6 边界条件">§1-6 边界条件</a></li>
+<li><a class="side-link" href="../notes/014-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%C2%A71-7-%E7%9E%AC%E6%97%B6%E9%9B%86%E4%B8%AD%E7%83%AD%E6%BA%90%E4%BD%9C%E7%94%A8%E4%B8%8B%E7%9A%84%E6%B8%A9%E5%BA%A6%E5%9C%BA.html" data-title="§1-7 瞬时集中热源作用下的温度场">§1-7 瞬时集中热源作用下的温度场</a></li>
+<li><a class="side-link" href="../notes/015-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%C2%A71-8-%E8%A1%A8%E9%9D%A2%E6%95%A3%E7%83%AD%E5%92%8C%E5%8F%A0%E5%8A%A0%E5%8E%9F%E7%90%86.html" data-title="§1-8 表面散热和叠加原理">§1-8 表面散热和叠加原理</a></li>
+<li><a class="side-link" href="../notes/016-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E9%87%91%E5%B1%9E%E7%84%8A%E6%8E%A5%E7%9A%84%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80.html" data-title="第一章 金属焊接的传热学基础">第一章 金属焊接的传热学基础</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">03 第二章 温度场数学模型</div>
+<ul>
+<li><a class="side-link" href="../notes/017-03-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-%C2%A72-1-%E5%8E%9A%E5%A4%A7%E7%84%8A%E4%BB%B6%E8%BF%9E%E7%BB%AD%E7%84%8A%E6%8E%A5%E6%97%B6%E7%9A%84%E6%B8%A9%E5%BA%A6%E5%9C%BA.html" data-title="§2-1 厚大焊件连续焊接时的温度场">§2-1 厚大焊件连续焊接时的温度场</a></li>
+<li><a class="side-link" href="../notes/018-03-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-%C2%A72-2-%E8%96%84%E6%9D%BF%E7%84%8A%E6%8E%A5%E6%97%B6%E7%9A%84%E6%B8%A9%E5%BA%A6%E5%9C%BA.html" data-title="§2-2 薄板焊接时的温度场">§2-2 薄板焊接时的温度场</a></li>
+<li><a class="side-link" href="../notes/019-03-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-%C2%A72-3-%E7%BB%86%E6%A3%92%E7%84%8A%E6%8E%A5%E6%97%B6%E7%9A%84%E6%B8%A9%E5%BA%A6%E5%9C%BA.html" data-title="§2-3 细棒焊接时的温度场">§2-3 细棒焊接时的温度场</a></li>
+<li><a class="side-link" href="../notes/020-03-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-%C2%A72-4-%E6%9E%81%E9%99%90%E9%A5%B1%E5%92%8C%E7%8A%B6%E6%80%81%E6%97%B6%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E7%AE%80%E5%8C%96%E8%AE%A1%E7%AE%97%E6%B3%95.html" data-title="§2-4 极限饱和状态时温度场的简化计算法">§2-4 极限饱和状态时温度场的简化计算法</a></li>
+<li><a class="side-link" href="../notes/021-03-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-%C2%A72-5-%E5%8A%A0%E7%83%AD%E5%8F%8A%E5%86%B7%E5%8D%B4%E9%98%B6%E6%AE%B5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E8%AE%A1%E7%AE%97.html" data-title="§2-5 加热及冷却阶段温度场的计算">§2-5 加热及冷却阶段温度场的计算</a></li>
+<li><a class="side-link" href="../notes/022-03-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-%C2%A72-6-%E4%B8%AD%E5%8E%9A%E6%9D%BF%E7%84%8A%E6%8E%A5%E6%97%B6%E7%9A%84%E6%B8%A9%E5%BA%A6%E5%9C%BA%E8%AE%A1%E7%AE%97.html" data-title="§2-6 中厚板焊接时的温度场计算">§2-6 中厚板焊接时的温度场计算</a></li>
+<li><a class="side-link" href="../notes/023-03-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-%C2%A72-7-%E5%A4%A7%E5%8A%9F%E7%8E%87%E9%AB%98%E9%80%9F%E7%A7%BB%E5%8A%A8%E7%83%AD%E6%BA%90%E7%9A%84%E6%B8%A9%E5%BA%A6%E5%9C%BA%E8%AE%A1%E7%AE%97.html" data-title="§2-7 大功率高速移动热源的温度场计算">§2-7 大功率高速移动热源的温度场计算</a></li>
+<li><a class="side-link" href="../notes/024-03-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-%C2%A72-8-%E5%85%B6%E4%BB%96%E7%84%8A%E6%8E%A5%E6%96%B9%E6%B3%95%E7%9A%84%E6%B8%A9%E5%BA%A6%E5%9C%BA.html" data-title="§2-8 其他焊接方法的温度场">§2-8 其他焊接方法的温度场</a></li>
+<li><a class="side-link" href="../notes/025-03-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B.html" data-title="第二章 焊接温度场及其数学模型">第二章 焊接温度场及其数学模型</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">04 第三章 热循环参数</div>
+<ul>
+<li><a class="side-link" href="../notes/026-04-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%83%AD%E5%BE%AA%E7%8E%AF%E5%8F%82%E6%95%B0-%C2%A73-1-%E7%84%8A%E6%8E%A5%E7%83%AD%E5%BE%AA%E7%8E%AF%E7%9A%84%E7%89%B9%E5%BE%81.html" data-title="§3-1 焊接热循环的特征">§3-1 焊接热循环的特征</a></li>
+<li><a class="side-link" href="../notes/027-04-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%83%AD%E5%BE%AA%E7%8E%AF%E5%8F%82%E6%95%B0-%C2%A73-2-%E7%84%8A%E6%8E%A5%E7%83%AD%E5%BE%AA%E7%8E%AF%E5%8F%82%E6%95%B0%E7%9A%84%E6%95%B0%E5%AD%A6%E8%A7%A3%E6%9E%90.html" data-title="§3-2 焊接热循环参数的数学解析">§3-2 焊接热循环参数的数学解析</a></li>
+<li><a class="side-link" href="../notes/028-04-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%83%AD%E5%BE%AA%E7%8E%AF%E5%8F%82%E6%95%B0-%C2%A73-3-%E5%86%B7%E5%8D%B4%E6%97%B6%E9%97%B4%E7%9A%84%E8%AE%A1%E7%AE%97%E5%8F%8A%E5%85%B6%E5%BD%B1%E5%93%8D%E5%9B%A0%E7%B4%A0.html" data-title="§3-3 冷却时间的计算及其影响因素">§3-3 冷却时间的计算及其影响因素</a></li>
+<li><a class="side-link" href="../notes/029-04-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%83%AD%E5%BE%AA%E7%8E%AF%E5%8F%82%E6%95%B0-%C2%A73-4-%E5%86%B7%E5%8D%B4%E6%97%B6%E9%97%B4%E4%B8%8E%E7%83%AD%E5%BD%B1%E5%93%8D%E5%8C%BA%E7%BB%84%E7%BB%87%E5%8F%8A%E7%A1%AC%E5%BA%A6.html" data-title="§3-4 冷却时间与热影响区组织及硬度">§3-4 冷却时间与热影响区组织及硬度</a></li>
+<li><a class="side-link" href="../notes/030-04-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%83%AD%E5%BE%AA%E7%8E%AF%E5%8F%82%E6%95%B0-%C2%A73-5-%E5%A4%9A%E5%B1%82%E7%84%8A%E7%84%8A%E6%8E%A5%E7%83%AD%E5%BE%AA%E7%8E%AF.html" data-title="§3-5 多层焊焊接热循环">§3-5 多层焊焊接热循环</a></li>
+<li><a class="side-link" href="../notes/031-04-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%83%AD%E5%BE%AA%E7%8E%AF%E5%8F%82%E6%95%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%84%8A%E6%8E%A5%E7%83%AD%E5%BE%AA%E7%8E%AF%E5%8F%82%E6%95%B0%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8.html" data-title="第三章 焊接热循环参数及其应用">第三章 焊接热循环参数及其应用</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">05 第四章 数值积分</div>
+<ul>
+<li><a class="side-link" href="../notes/032-05-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%C2%A74-1-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E6%95%B0%E5%80%BC%E8%A7%A3%E6%B3%95.html" data-title="§4-1 焊接温度场的数值解法">§4-1 焊接温度场的数值解法</a></li>
+<li><a class="side-link" href="../notes/033-05-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%C2%A74-2-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86%E7%9A%84%E4%B8%80%E8%88%AC%E6%A6%82%E5%BF%B5.html" data-title="§4-2 数值积分的一般概念">§4-2 数值积分的一般概念</a></li>
+<li><a class="side-link" href="../notes/034-05-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%C2%A74-3-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86%E8%A7%A3%E6%B3%95.html" data-title="§4-3 焊接温度场的数值积分解法">§4-3 焊接温度场的数值积分解法</a></li>
+<li><a class="side-link" href="../notes/035-05-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86%E8%A7%A3%E6%B3%95.html" data-title="第四章 焊接温度场的数值积分解法">第四章 焊接温度场的数值积分解法</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">06 第五章 有限差分</div>
+<ul>
+<li><a class="side-link" href="../notes/036-06-%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86-%C2%A75-1-%E7%94%A8%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95%E8%A7%A3%E7%A8%B3%E5%AE%9A%E7%83%AD%E4%BC%A0%E5%AF%BC%E9%97%AE%E9%A2%98.html" data-title="§5-1 用有限差分法解稳定热传导问题">§5-1 用有限差分法解稳定热传导问题</a></li>
+<li><a class="side-link" href="../notes/037-06-%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86-%C2%A75-2-%E7%94%A8%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95%E8%A7%A3%E4%B8%8D%E7%A8%B3%E5%AE%9A%E7%83%AD%E4%BC%A0%E5%AF%BC%E9%97%AE%E9%A2%98.html" data-title="§5-2 用有限差分法解不稳定热传导问题">§5-2 用有限差分法解不稳定热传导问题</a></li>
+<li><a class="side-link" href="../notes/038-06-%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86-%C2%A75-3-%E7%94%A8%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95%E8%AE%A1%E7%AE%97%E7%84%8A%E6%8E%A5%E7%83%AD%E4%BC%A0%E5%AF%BC%E9%97%AE%E9%A2%98.html" data-title="§5-3 用有限差分法计算焊接热传导问题">§5-3 用有限差分法计算焊接热传导问题</a></li>
+<li><a class="side-link" href="../notes/039-06-%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86-%E7%AC%AC%E4%BA%94%E7%AB%A0-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E8%A7%A3%E6%B3%95.html" data-title="第五章 焊接温度场的有限差分解法">第五章 焊接温度场的有限差分解法</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">07 第六章 有限元</div>
+<ul>
+<li><a class="side-link" href="../notes/040-07-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E6%9C%89%E9%99%90%E5%85%83-%C2%A76-1-%E5%9F%BA%E4%BA%8E%E5%8F%98%E5%88%86%E6%B3%95%E7%9A%84%E7%83%AD%E4%BC%A0%E5%AF%BC%E9%97%AE%E9%A2%98%E6%9C%89%E9%99%90%E5%85%83%E5%88%86%E6%9E%90.html" data-title="§6-1 基于变分法的热传导问题有限元分析">§6-1 基于变分法的热传导问题有限元分析</a></li>
+<li><a class="side-link" href="../notes/041-07-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E6%9C%89%E9%99%90%E5%85%83-%C2%A76-2-%E5%9F%BA%E4%BA%8E%E6%9D%83%E4%BD%99%E5%80%BC%E6%B3%95%E7%9A%84%E7%83%AD%E4%BC%A0%E5%AF%BC%E9%97%AE%E9%A2%98%E6%9C%89%E9%99%90%E5%85%83%E5%88%86%E6%9E%90.html" data-title="§6-2 基于权余值法的热传导问题有限元分析">§6-2 基于权余值法的热传导问题有限元分析</a></li>
+<li><a class="side-link" href="../notes/042-07-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E6%9C%89%E9%99%90%E5%85%83-%C2%A76-3-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B.html" data-title="§6-3 焊接温度场的数学模型">§6-3 焊接温度场的数学模型</a></li>
+<li><a class="side-link" href="../notes/043-07-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E6%9C%89%E9%99%90%E5%85%83-%C2%A76-4-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E5%88%B6%E5%92%8C%E5%AE%9E%E4%BE%8B%E5%88%86%E6%9E%90.html" data-title="§6-4 计算机程序的编制和实例分析">§6-4 计算机程序的编制和实例分析</a></li>
+<li><a class="side-link" href="../notes/044-07-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E6%9C%89%E9%99%90%E5%85%83-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E6%9C%89%E9%99%90%E5%85%83%E8%A7%A3%E6%B3%95.html" data-title="第六章 焊接温度场的有限元解法">第六章 焊接温度场的有限元解法</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">08 第七章 热象法</div>
+<ul>
+<li><a class="side-link" href="../notes/045-08-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%83%AD%E8%B1%A1%E6%B3%95-%C2%A77-1-%E7%83%AD%E8%B1%A1%E6%B3%95%E6%A6%82%E8%BF%B0.html" data-title="§7-1 热象法概述">§7-1 热象法概述</a></li>
+<li><a class="side-link" href="../notes/046-08-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%83%AD%E8%B1%A1%E6%B3%95-%C2%A77-2-%E7%83%AD%E8%B1%A1%E6%B3%95%E6%B5%8B%E6%B8%A9%E5%8E%9F%E7%90%86%E5%8F%8A%E6%B8%A9%E5%BA%A6%E5%AE%9A%E6%A0%87.html" data-title="§7-2 热象法测温原理及温度定标">§7-2 热象法测温原理及温度定标</a></li>
+<li><a class="side-link" href="../notes/047-08-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%83%AD%E8%B1%A1%E6%B3%95-%C2%A77-3-%E7%83%AD%E8%B1%A1%E6%B3%95%E6%B5%8B%E5%AE%9A%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E8%A3%85%E7%BD%AE.html" data-title="§7-3 热象法测定焊接温度场装置">§7-3 热象法测定焊接温度场装置</a></li>
+<li><a class="side-link" href="../notes/048-08-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%83%AD%E8%B1%A1%E6%B3%95-%C2%A77-4-%E7%83%AD%E8%B1%A1%E6%B3%95%E6%B5%8B%E5%AE%9A%E6%B8%A9%E5%BA%A6%E5%9C%BA.html" data-title="§7-4 热象法测定温度场">§7-4 热象法测定温度场</a></li>
+<li><a class="side-link" href="../notes/049-08-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%83%AD%E8%B1%A1%E6%B3%95-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%83%AD%E8%B1%A1%E6%B3%95%E6%B5%8B%E5%AE%9A%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA.html" data-title="第七章 热象法测定焊接温度场">第七章 热象法测定焊接温度场</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">09 概念卡</div>
+<ul>
+<li><a class="side-link type-card" href="../notes/050-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-800-500%E2%84%83%E5%86%B7%E5%8D%B4%E6%97%B6%E9%97%B4.html" data-title="800-500℃冷却时间">800-500℃冷却时间</a></li>
+<li><a class="side-link type-card" href="../notes/051-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-Rosenthal-%E6%96%B9%E7%A8%8B.html" data-title="Rosenthal 方程">Rosenthal 方程</a></li>
+<li><a class="side-link type-card" href="../notes/052-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-SHCCT-%E5%9B%BE.html" data-title="SHCCT 图">SHCCT 图</a></li>
+<li><a class="side-link type-card" href="../notes/053-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E4%B8%AD%E5%8E%9A%E6%9D%BF%E4%BC%A0%E7%83%AD%E6%A8%A1%E5%9E%8B.html" data-title="中厚板传热模型">中厚板传热模型</a></li>
+<li><a class="side-link type-card" href="../notes/054-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E4%B8%B4%E7%95%8C%E6%9D%BF%E5%8E%9A.html" data-title="临界板厚">临界板厚</a></li>
+<li><a class="side-link type-card" href="../notes/055-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%87%86%E7%A8%B3%E6%80%81%E6%B8%A9%E5%BA%A6%E5%9C%BA.html" data-title="准稳态温度场">准稳态温度场</a></li>
+<li><a class="side-link type-card" href="../notes/056-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%8A%A0%E6%9D%83%E4%BD%99%E5%80%BC%E6%B3%95.html" data-title="加权余值法">加权余值法</a></li>
+<li><a class="side-link type-card" href="../notes/057-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%8A%A0%E7%83%AD%E6%96%91%E7%82%B9%E4%B8%8E%E7%83%AD%E6%B5%81%E5%88%86%E5%B8%83.html" data-title="加热斑点与热流分布">加热斑点与热流分布</a></li>
+<li><a class="side-link type-card" href="../notes/058-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%8F%91%E5%B0%84%E7%8E%87.html" data-title="发射率">发射率</a></li>
+<li><a class="side-link type-card" href="../notes/059-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%8F%98%E5%88%86%E5%8E%9F%E7%90%86.html" data-title="变分原理">变分原理</a></li>
+<li><a class="side-link type-card" href="../notes/060-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%8F%A0%E5%8A%A0%E5%8E%9F%E7%90%86.html" data-title="叠加原理">叠加原理</a></li>
+<li><a class="side-link type-card" href="../notes/061-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%A4%9A%E5%B1%82%E7%84%8A%E7%83%AD%E5%BE%AA%E7%8E%AF.html" data-title="多层焊热循环">多层焊热循环</a></li>
+<li><a class="side-link type-card" href="../notes/062-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%AE%B9%E7%A7%AF%E6%AF%94%E7%83%AD%E5%AE%B9.html" data-title="容积比热容">容积比热容</a></li>
+<li><a class="side-link type-card" href="../notes/063-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%AF%BC%E7%83%AD%E7%B3%BB%E6%95%B0.html" data-title="导热系数">导热系数</a></li>
+<li><a class="side-link type-card" href="../notes/064-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%B3%B0%E5%80%BC%E6%B8%A9%E5%BA%A6.html" data-title="峰值温度">峰值温度</a></li>
+<li><a class="side-link type-card" href="../notes/065-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%B7%AE%E5%88%86%E7%A8%B3%E5%AE%9A%E6%80%A7%E6%9D%A1%E4%BB%B6.html" data-title="差分稳定性条件">差分稳定性条件</a></li>
+<li><a class="side-link type-card" href="../notes/066-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86%E6%B3%95.html" data-title="数值积分法">数值积分法</a></li>
+<li><a class="side-link type-card" href="../notes/067-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%98%BE%E5%BC%8F%E5%B7%AE%E5%88%86%E6%A0%BC%E5%BC%8F.html" data-title="显式差分格式">显式差分格式</a></li>
+<li><a class="side-link type-card" href="../notes/068-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%9C%89%E9%99%90%E5%85%83%E6%B3%95.html" data-title="有限元法">有限元法</a></li>
+<li><a class="side-link type-card" href="../notes/069-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95.html" data-title="有限差分法">有限差分法</a></li>
+<li><a class="side-link type-card" href="../notes/070-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%9E%81%E9%99%90%E9%A5%B1%E5%92%8C%E7%8A%B6%E6%80%81.html" data-title="极限饱和状态">极限饱和状态</a></li>
+<li><a class="side-link type-card" href="../notes/071-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E4%B8%8E%E7%AD%89%E6%B8%A9%E7%BA%BF.html" data-title="温度场与等温线">温度场与等温线</a></li>
+<li><a class="side-link type-card" href="../notes/072-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%B8%A9%E5%BA%A6%E5%AE%9A%E6%A0%87.html" data-title="温度定标">温度定标</a></li>
+<li><a class="side-link type-card" href="../notes/073-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%B8%A9%E5%BA%A6%E6%A2%AF%E5%BA%A6.html" data-title="温度梯度">温度梯度</a></li>
+<li><a class="side-link type-card" href="../notes/074-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%82%B9%E7%8A%B6%E7%83%AD%E6%BA%90.html" data-title="点状热源">点状热源</a></li>
+<li><a class="side-link type-card" href="../notes/075-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%83%AD%E4%BC%A0%E5%AF%BC%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B.html" data-title="热传导微分方程">热传导微分方程</a></li>
+<li><a class="side-link type-card" href="../notes/076-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%83%AD%E6%89%A9%E6%95%A3%E7%8E%87.html" data-title="热扩散率">热扩散率</a></li>
+<li><a class="side-link type-card" href="../notes/077-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%84%8A%E6%8E%A5%E7%83%AD%E5%BE%AA%E7%8E%AF.html" data-title="焊接热循环">焊接热循环</a></li>
+<li><a class="side-link type-card" href="../notes/078-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%84%8A%E6%8E%A5%E7%83%AD%E6%95%88%E7%8E%87.html" data-title="焊接热效率">焊接热效率</a></li>
+<li><a class="side-link type-card" href="../notes/079-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%84%8A%E6%8E%A5%E7%83%AD%E8%BF%87%E7%A8%8B.html" data-title="焊接热过程">焊接热过程</a></li>
+<li><a class="side-link type-card" href="../notes/080-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%9B%B8%E5%8F%98%E6%B8%A9%E5%BA%A6%E4%BB%A5%E4%B8%8A%E5%81%9C%E7%95%99%E6%97%B6%E9%97%B4.html" data-title="相变温度以上停留时间">相变温度以上停留时间</a></li>
+<li><a class="side-link type-card" href="../notes/081-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%9B%B8%E5%8F%98%E6%BD%9C%E7%83%AD%E5%A4%84%E7%90%86.html" data-title="相变潜热处理">相变潜热处理</a></li>
+<li><a class="side-link type-card" href="../notes/082-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%9E%AC%E6%97%B6%E5%86%B7%E5%8D%B4%E9%80%9F%E5%BA%A6.html" data-title="瞬时冷却速度">瞬时冷却速度</a></li>
+<li><a class="side-link type-card" href="../notes/083-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%9E%AC%E6%97%B6%E9%9B%86%E4%B8%AD%E7%83%AD%E6%BA%90.html" data-title="瞬时集中热源">瞬时集中热源</a></li>
+<li><a class="side-link type-card" href="../notes/084-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%A2%B3%E5%BD%93%E9%87%8F.html" data-title="碳当量">碳当量</a></li>
+<li><a class="side-link type-card" href="../notes/085-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%BA%A2%E5%A4%96%E7%83%AD%E8%B1%A1%E6%B3%95.html" data-title="红外热象法">红外热象法</a></li>
+<li><a class="side-link type-card" href="../notes/086-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%BA%BF%E7%8A%B6%E7%83%AD%E6%BA%90.html" data-title="线状热源">线状热源</a></li>
+<li><a class="side-link type-card" href="../notes/087-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%BA%BF%E8%83%BD%E9%87%8F.html" data-title="线能量">线能量</a></li>
+<li><a class="side-link type-card" href="../notes/088-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6.html" data-title="边界条件">边界条件</a></li>
+<li><a class="side-link type-card" href="../notes/089-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E9%9A%90%E5%BC%8F%E5%B7%AE%E5%88%86%E6%A0%BC%E5%BC%8F.html" data-title="隐式差分格式">隐式差分格式</a></li>
+<li><a class="side-link type-card" href="../notes/090-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E9%9D%A2%E7%8A%B6%E7%83%AD%E6%BA%90.html" data-title="面状热源">面状热源</a></li>
+<li><a class="side-link type-card" href="../notes/091-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E9%AB%98%E6%96%AF%E6%B1%82%E7%A7%AF.html" data-title="高斯求积">高斯求积</a></li>
+<li><a class="side-link type-card" href="../notes/092-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E9%AB%98%E9%80%9F%E7%A7%BB%E5%8A%A8%E7%83%AD%E6%BA%90.html" data-title="高速移动热源">高速移动热源</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">10 公式库</div>
+<ul>
+<li><a class="side-link" href="../notes/093-10-%E5%85%AC%E5%BC%8F%E5%BA%93-%E4%BB%8E%E7%9E%AC%E6%97%B6%E7%82%B9%E7%83%AD%E6%BA%90%E5%88%B0-t8-5-%E7%9A%84%E6%8E%A8%E5%AF%BC%E9%93%BE.html" data-title="从瞬时点热源到 t8-5 的推导链">从瞬时点热源到 t8-5 的推导链</a></li>
+<li><a class="side-link" href="../notes/094-10-%E5%85%AC%E5%BC%8F%E5%BA%93-%E5%85%AC%E5%BC%8F%E6%80%BB%E8%A1%A8.html" data-title="公式总表">公式总表</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">11 附表数据</div>
+<ul>
+<li><a class="side-link" href="../notes/095-11-%E9%99%84%E8%A1%A8%E6%95%B0%E6%8D%AE-%E9%99%84%E8%A1%A8%E5%87%BD%E6%95%B0%E8%A1%A8%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" data-title="附表函数表使用指南">附表函数表使用指南</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">12 术语</div>
+<ul>
+<li><a class="side-link" href="../notes/096-12-%E6%9C%AF%E8%AF%AD-%E6%9C%AF%E8%AF%AD%E4%B8%AD%E8%8B%B1%E5%AF%B9%E7%85%A7.html" data-title="术语中英对照">术语中英对照</a></li>
+</ul></div></div>
+  </nav>
+  <main class="content">
+    <article class="note">
+<div class="note-head"><div class="crumb">05 第四章 数值积分/§4-3 焊接温度场的数值积分解法</div><h1>§4-3 焊接温度场的数值积分解法</h1><div class="meta-row"><span class="tag">焊接传热学</span><span class="tag">章/04</span><span class="tag">主题/数值解</span><span class="tag">类型/方法</span><span class="tag">状态/待校</span><span class="meta-chip">书 p.88</span><span class="meta-chip">PDF p.92</span><span class="meta-chip">第 4 章</span><span class="meta-chip">§4-3</span></div></div><blockquote>
+<p>📄 原文：<span class="pdf-ref" title="原书 PDF 引用（仓库不含 PDF）">📄 原书 PDF 第 92 页</span>（书 p.88–92）</p>
+</blockquote>
+<h2>§4-3 焊接温度场的数值积分解法</h2>
+<h2>核心结论</h2>
+<ul>
+<li>固定功率的点状/线状热源在半无限大体或大尺寸薄板上移动时，任一点任一刻的温度可由<strong>表 4-2</strong> 的公式求得，这些公式都含<strong>很难积出的时间积分</strong>，只能用数值积分（p.88）。</li>
+<li>求积前必须先做<strong>坐标变换</strong>：高斯积分在局部坐标系 <span class="math-inline">$(\xi,\eta,\zeta)$</span> 的<strong>母单元</strong>内进行，而整体求积要在整体坐标系 <span class="math-inline">$(x,y,z)$</span> 的<strong>子单元</strong>上进行（p.88–89）。</li>
+<li>因为是对<strong>时间</strong>积分，问题的实质是<strong>一维高斯求积</strong>：把时间域 <span class="math-inline">$(0,t)$</span> 划成 <span class="math-inline">$P$</span> 个子域，每个子域取 3 节点（二次单元）即可（p.89–90）。</li>
+<li>形函数必须满足三个条件：本点 <span class="math-inline">$N_i=1$</span>、他点 <span class="math-inline">$N_i=0$</span>；所定义的未知量在相邻单元间<strong>连续</strong>；<span class="math-inline">$\sum N_i=1$</span>（p.90）。</li>
+<li>形函数阶次越高 → 单元适应性越强、所需单元数越少 → 方程组阶数低、计算时间少；但运算更复杂。<strong>存在一个最经济的阶次</strong>，一般靠计算经验定（p.90）。</li>
+<li>子域划分 + 高斯求积把不可积的解析式变成<strong>纯加法循环</strong>，这就是图4-9 计算框图的全部内容（p.91–92）。</li>
+</ul>
+<h2>公式与推导</h2>
+<h3>表 4-2 移动热源作用下任一点的温度（四种组合）</h3>
+<p>书中按「点状热源 / 线状热源」×「固定坐标系 / 移动坐标系」列出四组公式，并注明符号定义见图2-3、图2-6 及第二章说明（p.88–89）。</p>
+<table>
+<thead>
+<tr>
+<th>热源</th>
+<th>坐标系</th>
+<th>原书式号（见第二章）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>点状热源</td>
+<td>固定</td>
+<td>(2-17)</td>
+</tr>
+<tr>
+<td>点状热源</td>
+<td>移动</td>
+<td>(2-19)</td>
+</tr>
+<tr>
+<td>线状热源</td>
+<td>固定</td>
+<td>同族公式</td>
+</tr>
+<tr>
+<td>线状热源</td>
+<td>移动</td>
+<td>同族公式</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ 表 4-2 整表 OCR 完全错行（见「待校」），本笔记不臆造表内各式，只记其<strong>结构特征</strong>：四式都含 <span class="math-inline">$\displaystyle\int_0^{t}\frac{1}{t'+\tau}\exp\!\left[-\frac{(\cdots)^2+(\cdots)^2}{4a(t'+\tau)}\right]\mathrm dt'$</span> 型的时间积分，积分限与坐标组合由"固定/移动"决定。点状（三维）与线状（二维）的差别在指数项的维数与前置系数。</p>
+</blockquote>
+<h3>式(4-15) 线状移动热源的温度积分式</h3>
+<p>设线状热源在大尺寸薄板上移动：热源强度 <span class="math-inline">$q$</span>［J/(cm·s)］，<span class="math-inline">$q=Q/h$</span>（<span class="math-inline">$Q$</span> 电弧有效热功率 J/s，<span class="math-inline">$h$</span> 板厚 cm）；沿 <span class="math-inline">$X$</span> 轴以 <span class="math-inline">$v$</span>［cm/s］移动；取<strong>焊接终了时</strong>热源位置为原点（图4-6）；<span class="math-inline">$t$</span> 为焊接过程总时间，<span class="math-inline">$\tau$</span> 为冷却时间（由焊接终了起算）。焊接终了 <span class="math-inline">$\tau$</span> 时刻的温度为</p>
+<span class="math-block block">$$T(x,y)=\frac{q}{4\pi\lambda}\int_{0}^{t}\frac{1}{t'+\tau}\exp\left[-\frac{\bigl(x+v(t'+\tau)\bigr)^{2}+y^{2}}{4a\,(t'+\tau)}\right]\mathrm dt' \tag{4-15}$$</span>
+<p><strong>符号</strong>：<span class="math-inline">$q=Q/h$</span> 单位长度热源强度；<span class="math-inline">$\lambda$</span> W/(cm·℃)；<span class="math-inline">$a$</span> cm²/s；<span class="math-inline">$v$</span> cm/s。
+<strong>量纲检查</strong>：<span class="math-inline">$\dfrac{q}{4\pi\lambda}$</span> = <span class="math-inline">$\dfrac{\mathrm{J/(cm\cdot s)}}{\mathrm{J/(cm\cdot s\cdot℃)}}$</span> = ℃；<span class="math-inline">$\dfrac{\mathrm dt'}{t'+\tau}$</span> 无量纲 → 右侧量纲为 ℃ ✓。洁净的"温度 = 温度"关系，说明前置系数只能是 <span class="math-inline">$q$</span> 的一次、<span class="math-inline">$\lambda$</span> 的一次。
+<strong>物理含义</strong>：把连续移动的热源看成<strong>无穷多个瞬时线热源的叠加</strong>，每个 <span class="math-inline">$t'$</span> 时刻发出的热量经 <span class="math-inline">$(t'+\tau)$</span> 的时间按二维高斯分布扩散，指数前的 <span class="math-inline">$1/(t'+\tau)$</span> 正是二维瞬时线热源的衰减律（与式1-27 同族）。
+<strong>交叉校核</strong>：令 <span class="math-inline">$t\to\infty$</span>、对 <span class="math-inline">$t'$</span> 从 <span class="math-inline">$0$</span> 积到 <span class="math-inline">$\infty$</span>，上式应退化为线状移动热源的<strong>准稳态解析解</strong>
+<span class="math-block">$$T=\frac{q}{2\pi\lambda}e^{-\frac{vx}{2a}}K_0\!\left(\frac{vr}{2a}\right),\qquad r=\sqrt{x^2+y^2}$$</span>
+用 <span class="math-inline">$\int_0^\infty e^{-\beta s-\gamma/s}\dfrac{\mathrm ds}{s}=2K_0(2\sqrt{\beta\gamma})$</span> 可验证两者完全一致——这是判断式(4-15) 系数无误的依据。</p>
+<blockquote>
+<p>⚠️ 待校：积分上限在 OCR 中残缺（作 "<span class="math-inline">$t$</span>"，也可能为 <span class="math-inline">$t+\tau$</span>）；指数内的 <span class="math-inline">$x+v(t'+\tau)$</span> 与分母 <span class="math-inline">$t'+\tau$</span> 可辨认，但 <span class="math-inline">$x$</span>、<span class="math-inline">$y$</span> 的原点取法（焊接终了时热源位置）决定了 <span class="math-inline">$x$</span> 的符号。</p>
+</blockquote>
+<h3>式(4-16) 把时间域分成 <span class="math-inline">$P$</span> 个子域</h3>
+<p>若每个子域取三个节点（三节点二次单元）：中间节点整体坐标 <span class="math-inline">$t_i$</span>，前后两节点为 <span class="math-inline">$t_i-\dfrac{\Delta t}{2}$</span>、<span class="math-inline">$t_i+\dfrac{\Delta t}{2}$</span>，节点间时间步长 <span class="math-inline">$\Delta t$</span>。把时间域 <span class="math-inline">$(0,t)$</span> 划分为 <span class="math-inline">$P$</span> 个子域后，式(4-15) 写成</p>
+<span class="math-block block">$$T(x,y)=\sum_{p=1}^{P}\frac{q}{4\pi\lambda}\int_{t'_{p-1}}^{t'_{p}}\frac{1}{t'+\tau}\exp\left[-\frac{\bigl(x+v(t'+\tau)\bigr)^{2}+y^{2}}{4a(t'+\tau)}\right]\mathrm dt' \tag{4-16}$$</span>
+<p><strong>含义</strong>：把大区间上的积分拆成 <span class="math-inline">$P$</span> 个小积分之和。每段的被积函数光滑、变化尺度小，才适合低阶插值。</p>
+<h3>式(4-17) 用形函数做坐标变换</h3>
+<p>把整体坐标系内子单元中任一点的坐标 <span class="math-inline">$t'$</span>，通过形函数用节点坐标 <span class="math-inline">$t_i$</span> 表示：
+<span class="math-block">$$t'=\sum_{i=1}^{3}N_i(\xi)\,t_i \tag{4-17}$$</span>
+三节点二次单元的形函数（局部坐标 <span class="math-inline">$-1\le\xi\le1$</span>，节点 <span class="math-inline">$\xi=-1,0,1$</span>）：
+<span class="math-block">$$N_1=\frac{\xi(\xi-1)}{2},\qquad N_2=\frac{\xi(\xi+1)}{2},\qquad N_3=1-\xi^{2}$$</span>
+<strong>自检</strong>：<span class="math-inline">$\sum N_i=\dfrac{\xi^2-\xi+\xi^2+\xi}{2}+1-\xi^2=\xi^2+1-\xi^2=1$</span> ✓（满足条件 3）。
+<strong>自检</strong>：<span class="math-inline">$\xi=-1$</span> 时 <span class="math-inline">$N_1=1,N_2=0,N_3=0$</span>；<span class="math-inline">$\xi=0$</span> 时 <span class="math-inline">$N_3=1$</span>；<span class="math-inline">$\xi=1$</span> 时 <span class="math-inline">$N_2=1$</span> ✓（满足条件 1）。
+<strong>等距特例</strong>：三节点等距时 <span class="math-inline">$t'=t_i+\dfrac{\Delta t}{2}\xi$</span>，<span class="math-inline">$\mathrm dt'=\dfrac{\Delta t}{2}\mathrm d\xi$</span> —— 这就是式(4-18) 里那个 <span class="math-inline">$\frac{\Delta t}{2}$</span> 的来源。</p>
+<h3>式(4-18) 代入后改写为 <span class="math-inline">$\xi$</span> 上的积分</h3>
+<span class="math-block block">$$T(x,y)=\sum_{p=1}^{P}\frac{q}{4\pi\lambda}\cdot\frac{\Delta t}{2}\int_{-1}^{1}\frac{1}{\sum N_i t_i+\tau}\exp\left[-\frac{\left(x+v\left(\sum N_i t_i+\tau\right)\right)^{2}+y^{2}}{4a\left(\sum N_i t_i+\tau\right)}\right]\mathrm d\xi \tag{4-18}$$</span>
+<p><strong>量纲检查</strong>：<span class="math-inline">$\dfrac{\Delta t}{2}\mathrm d\xi$</span> 自带时间量纲，与式(4-16) 的 <span class="math-inline">$\mathrm dt'$</span> 对应 ✓；其余因子与(4-15) 同。
+<strong>含义</strong>：积分区间从"任意长度的时间段"变成<strong>标准的 <span class="math-inline">$[-1,1]$</span></strong>，从此可以直接套 §4-2 的表4-1。</p>
+<h3>式(4-19) 对每个子域做高斯求积</h3>
+<span class="math-block block">$$T(x,y)=\sum_{p=1}^{P}\frac{q}{4\pi\lambda}\cdot\frac{\Delta t}{2}\sum_{g=1}^{n}H_g\,\frac{1}{\sum N_i(\xi_g)t_i+\tau}\exp\left[-\frac{\left(x+v\left(\sum N_i(\xi_g)t_i+\tau\right)\right)^{2}+y^{2}}{4a\left(\sum N_i(\xi_g)t_i+\tau\right)}\right] \tag{4-19}$$</span>
+<p><strong>符号</strong>：<span class="math-inline">$n$</span> 高斯求积点数目；<span class="math-inline">$H_g$</span> 求积加权系数（查表4-1）；<span class="math-inline">$\xi_g$</span> 高斯点坐标。
+<strong>用法</strong>：设定 <span class="math-inline">$n$</span> 后，查表4-1 得 <span class="math-inline">$H_g$</span> 与 <span class="math-inline">$\xi_g$</span>，分别代入式(4-17) 与式(4-19)，即可解出 <span class="math-inline">$T(x,y)$</span>（p.91）。
+<strong>量纲检查</strong>：同(4-18)，<span class="math-inline">$H_g$</span> 无量纲 ✓。</p>
+<h3>形函数的一般形式（含单元形状）</h3>
+<p>书中先给出局部坐标系中母单元的形函数（p.89–90）：</p>
+<p><strong>（1）线性单元（2 节点）</strong>
+<span class="math-block">$$N_1=\frac{1-\xi}{2},\qquad N_2=\frac{1+\xi}{2}$$</span></p>
+<p><strong>（2）二次单元（3 节点）</strong>
+<span class="math-block">$$N_1=\frac{\xi(\xi-1)}{2},\qquad N_2=\frac{\xi(\xi+1)}{2},\qquad N_3=1-\xi^{2}$$</span></p>
+<p><strong>（3）三次单元（4 节点）</strong>，节点 <span class="math-inline">$\xi=-1,-\frac13,\frac13,1$</span>：
+<span class="math-block">$$N_1=\frac{1}{16}(1-\xi)(9\xi^{2}-1),\qquad N_2=\frac{9}{16}(1-\xi^{2})(1-3\xi)$$</span>
+<span class="math-block">$$N_3=\frac{9}{16}(1-\xi^{2})(1+3\xi),\qquad N_4=\frac{1}{16}(1+\xi)(9\xi^{2}-1)$$</span></p>
+<p><strong>自检（三次单元）</strong>：
+<span class="math-inline">$\sum N_i=\frac{1}{16}(9\xi^2-1)\cdot2+\frac{9}{16}(1-\xi^2)\cdot2=\frac{9\xi^2-1+9-9\xi^2}{8}=1$</span> ✓
+<span class="math-inline">$\xi=-1$</span>：<span class="math-inline">$N_1=\frac{1}{16}\cdot2\cdot8=1$</span>，其余为 0 ✓；<span class="math-inline">$\xi=-\frac13$</span>：<span class="math-inline">$N_2=\frac{9}{16}\cdot\frac89\cdot2=1$</span> ✓；<span class="math-inline">$\xi=\frac13$</span>：<span class="math-inline">$N_3=1$</span> ✓；<span class="math-inline">$\xi=1$</span>：<span class="math-inline">$N_4=1$</span> ✓</p>
+<p><strong>形函数的三个条件</strong>（p.90）：
+1. 在节点 <span class="math-inline">$i$</span>，<span class="math-inline">$N_i=1$</span>；在其他节点，<span class="math-inline">$N_i=0$</span>；
+2. 用它所定义的未知量在相邻单元之间是<strong>连续</strong>的；
+3. <span class="math-inline">$\sum N_i=1$</span>（保证能表示常数场/刚体位移）。</p>
+<p><strong>坐标转换</strong>：一维问题简单，
+<span class="math-block">$$x=\sum N_i(\xi)\,x_i$$</span>
+其中 <span class="math-inline">$N_i(\xi)$</span> 是局部坐标表示的形函数，<span class="math-inline">$(x_i)$</span> 是节点 <span class="math-inline">$i$</span> 的整体坐标。</p>
+<h2>关键概念</h2>
+<ul>
+<li><a href="091-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E9%AB%98%E6%96%AF%E6%B1%82%E7%A7%AF.html" class="wikilink" title="高斯求积">高斯求积</a>：本节把它套在"时间"这个一维区间上，是因为焊接解的时间积分没有原函数。</li>
+<li><a href="066-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86%E6%B3%95.html" class="wikilink" title="数值积分法">数值积分法</a>：母单元/子单元、形函数、Jacobi 因子 <span class="math-inline">$\frac{\Delta t}{2}$</span>，都是"把积分搬到标准区间"的技术细节。</li>
+<li>母单元（master element）：局部坐标 <span class="math-inline">$(\xi,\eta,\zeta)$</span> 中形状固定的标准单元（如 <span class="math-inline">$-1\le\xi\le1$</span> 的线性单元）。</li>
+<li>子单元（sub-element）：母单元经坐标转换后在整体坐标系 <span class="math-inline">$(x,y,z)$</span> 中得到的不同长度/形状的曲线单元（图4-5）。</li>
+<li>图4-4：一维母单元的 a) 线性、b) 二次、c) 三次单元。</li>
+</ul>
+<h2>工程要点</h2>
+<ul>
+<li><strong>算例 1（图4-7，单丝单面埋弧自动焊）</strong>：对接拼板 <span class="math-inline">$8000\sim12000\times3000\times16$</span> mm，船用低碳钢，单面焊一次焊成。计算取
+  <span class="math-inline">$\dfrac{q}{h}=17290\ \mathrm{J/(cm\cdot s)}$</span>，<span class="math-inline">$v=0.8\ \mathrm{cm/s}$</span>，<span class="math-inline">$a=0.08\ \mathrm{cm^2/s}$</span>，<span class="math-inline">$\lambda=0.375\ \mathrm{J/(cm\cdot s\cdot℃)}$</span>，<span class="math-inline">$c=0.679\ \mathrm{J/(g\cdot℃)}$</span>，<span class="math-inline">$\rho=7.68\ \mathrm{g/cm^3}$</span>，初温 <span class="math-inline">$0\ ℃$</span>（p.91）。</li>
+<li><strong>算例 2（图4-8，双丝单面埋弧自动焊）</strong>：<span class="math-inline">$q_1/h=q_2/h=12750\ \mathrm{J/(cm\cdot s)}$</span>，<span class="math-inline">$v=0.75\ \mathrm{cm/s}$</span>（p.92）。</li>
+<li><strong>图4-9 计算框图</strong>的流程即为程序结构：开始 → 输入原始数据 →（温度场编号、焊丝编号、校正电位）→ 判断是否加热 → 时间域离散（确定节点时间）→ 节点坐标循环 → 加热时间循环 → 计算积分值 → 计算节点温度 → 节点温度叠加 → 输出节点温度 → 结束（p.92）。</li>
+<li><strong>结论性事实</strong>：3 节点二次单元 + 高斯求积就足以给出可用的焊接等温线图——精度不是靠"密"，而是靠"阶"。</li>
+</ul>
+<h2>易错点</h2>
+<ol>
+<li><strong>别忘了 Jacobi 因子 <span class="math-inline">$\dfrac{\Delta t}{2}$</span></strong>。式(4-16)→(4-18) 的这一步最容易漏，漏了量纲立刻不对（右侧变成 <span class="math-inline">$\mathrm{℃\cdot s^{-1}}$</span> 类的怪东西）。</li>
+<li><strong>形函数的下标次序与节点坐标绑定</strong>。三次单元的 <span class="math-inline">$N_2$</span> 对应 <span class="math-inline">$\xi=-\frac13$</span>，<span class="math-inline">$N_3$</span> 对应 <span class="math-inline">$\xi=+\frac13$</span>；OCR 里这两个常被互换，须用"本点为 1"逐个验算。</li>
+<li><strong><span class="math-inline">$\sum N_i=1$</span> 不是可选项</strong>，它保证单元内能表示常数温度场；不满足的"形函数"是错的。</li>
+<li><strong><span class="math-inline">$\tau$</span> 的起点是焊接终了</strong>，<span class="math-inline">$t$</span> 是焊接总时间；两个时间别混（混了积分限就错）。</li>
+<li><strong>算例参数自洽性</strong>：<span class="math-inline">$\lambda/(c\rho)=0.072$</span> 而书中给 <span class="math-inline">$a=0.08\ \mathrm{cm^2/s}$</span>，差 11%，代入前须统一（见章笔记待校）。</li>
+</ol>
+<h2>待校（本节）</h2>
+<ul>
+<li>⚠️ <strong>表 4-2</strong>：OCR 整表错行，"点状/线状 × 固定/移动"四式的具体表达、以及式号（OCR 作 (1-17)、(1-19)，应为第二章的 (2-17)、(2-19)）均不可靠，需对原书 p.89 核。</li>
+<li>⚠️ <strong>式(4-15)(4-16)(4-18)(4-19)</strong>：前置系数 <span class="math-inline">$\dfrac{q}{4\pi\lambda}$</span>、积分限、指数中 <span class="math-inline">$x$</span> 的原点取法为按二维线热源基本解 + Rosenthal 准稳态极限反推所得（推导与校核见上），OCR 原文残缺。</li>
+<li>⚠️ <strong>三次单元形函数</strong>：<span class="math-inline">$N_2$</span>、<span class="math-inline">$N_3$</span> 的对应关系 OCR 混乱，已按 <span class="math-inline">$\xi=-1,-\frac13,\frac13,1$</span> 重建并逐个验算。</li>
+</ul>
+<h2>关联</h2>
+<ul>
+<li>上一节：<a href="033-05-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%C2%A74-2-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86%E7%9A%84%E4%B8%80%E8%88%AC%E6%A6%82%E5%BF%B5.html" class="wikilink" title="§4-2 数值积分的一般概念">§4-2 数值积分的一般概念</a></li>
+<li>章笔记：<a href="035-05-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86%E8%A7%A3%E6%B3%95.html" class="wikilink" title="第四章 焊接温度场的数值积分解法">第四章 焊接温度场的数值积分解法</a></li>
+<li>相关概念：<a href="091-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E9%AB%98%E6%96%AF%E6%B1%82%E7%A7%AF.html" class="wikilink" title="高斯求积">高斯求积</a>、<a href="066-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86%E6%B3%95.html" class="wikilink" title="数值积分法">数值积分法</a></li>
+<li>前置：<a href="014-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%C2%A71-7-%E7%9E%AC%E6%97%B6%E9%9B%86%E4%B8%AD%E7%83%AD%E6%BA%90%E4%BD%9C%E7%94%A8%E4%B8%8B%E7%9A%84%E6%B8%A9%E5%BA%A6%E5%9C%BA.html" class="wikilink" title="§1-7 瞬时集中热源作用下的温度场">§1-7 瞬时集中热源作用下的温度场</a>（二维线热源基本解）、<a href="017-03-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-%C2%A72-1-%E5%8E%9A%E5%A4%A7%E7%84%8A%E4%BB%B6%E8%BF%9E%E7%BB%AD%E7%84%8A%E6%8E%A5%E6%97%B6%E7%9A%84%E6%B8%A9%E5%BA%A6%E5%9C%BA.html" class="wikilink" title="§2-1 厚大焊件连续焊接时的温度场">§2-1 厚大焊件连续焊接时的温度场</a></li>
+<li>后置：<a href="039-06-%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86-%E7%AC%AC%E4%BA%94%E7%AB%A0-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E8%A7%A3%E6%B3%95.html" class="wikilink" title="第五章 焊接温度场的有限差分解法">第五章 焊接温度场的有限差分解法</a></li>
+</ul>
+    </article>
+    <nav class="pager"><a class="prev" href="notes/033-05-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%C2%A74-2-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86%E7%9A%84%E4%B8%80%E8%88%AC%E6%A6%82%E5%BF%B5.html">← §4-2 数值积分的一般概念</a><a class="next" href="notes/035-05-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86%E8%A7%A3%E6%B3%95.html">第四章 焊接温度场的数值积分解法 →</a></nav>
+    <footer class="foot">
+      <a href="https://github.com/2486809961-alt/welding-heat-transfer" target="_blank" rel="noopener">GitHub 仓库</a> ·
+      <a href="../index.html">首页</a> ·
+      个人学习笔记，原书版权归作者与出版社所有
+    </footer>
+  </main>
+</div>
+<script>window.__ROOT__="../";</script>
+<script src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/contrib/auto-render.min.js"></script>
+<script src="../assets/mermaid.min.js"></script>
+<script src="../assets/app.js"></script>
+</body>
+</html>

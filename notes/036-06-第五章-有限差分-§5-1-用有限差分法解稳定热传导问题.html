@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>§5-1 用有限差分法解稳定热传导问题 · 焊接传热学知识库</title>
+<meta name="description" content="06 第五章 有限差分/§5-1 用有限差分法解稳定热传导问题">
+<meta property="og:title" content="§5-1 用有限差分法解稳定热传导问题 · 焊接传热学知识库">
+<meta property="og:description" content="张文钺《焊接传热学》结构化 Obsidian 知识库：7 章 37 节 + 43 概念卡 + 公式库">
+<meta property="og:type" content="article">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%278%27 fill=%27%237c5cff%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2716%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27sans-serif%27%3E焊%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/katex/katex.min.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-btn" id="menuBtn" aria-label="目录">☰</button>
+  <a class="brand" href="../index.html">焊接传热学<span class="brand-sub">Obsidian 知识库</span></a>
+  <div class="search-wrap">
+    <input id="searchInput" type="search" placeholder="搜索笔记 / 概念 / 公式…" autocomplete="off">
+    <div id="searchResults" class="search-results"></div>
+  </div>
+  <a class="btn dl" href="https://github.com/2486809961-alt/welding-heat-transfer/releases/latest" target="_blank" rel="noopener">⬇︎ 下载整库</a>
+  <button class="btn ghost" id="themeBtn" aria-label="切换主题">◐</button>
+</header>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <div class="side-inner"><a class="side-home" href="../index.html">🏠 首页</a>
+<div class="side-group">
+<div class="side-group-label">00 索引</div>
+<ul>
+<li><a class="side-link" href="../notes/001-00-%E7%B4%A2%E5%BC%95-%E5%85%A8%E4%B9%A6%E7%9B%AE%E5%BD%95%E4%B8%8E%E9%A1%B5%E7%A0%81%E5%AF%B9%E7%85%A7.html" data-title="全书目录与页码对照">全书目录与页码对照</a></li>
+<li><a class="side-link" href="../notes/002-00-%E7%B4%A2%E5%BC%95-%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%9F%A5%E8%AF%86%E5%BA%93.html" data-title="关于本知识库">关于本知识库</a></li>
+<li><a class="side-link" href="../notes/003-00-%E7%B4%A2%E5%BC%95-%E5%AD%A6%E4%B9%A0%E8%B7%AF%E5%BE%84.html" data-title="学习路径">学习路径</a></li>
+<li><a class="side-link" href="../notes/004-00-%E7%B4%A2%E5%BC%95-%E5%BE%85%E6%A0%A1%E6%B8%85%E5%8D%95.html" data-title="待校清单">待校清单</a></li>
+<li><a class="side-link" href="../notes/005-00-%E7%B4%A2%E5%BC%95-%E6%A6%82%E5%BF%B5%E5%9C%B0%E5%9B%BE.html" data-title="概念地图">概念地图</a></li>
+<li><a class="side-link" href="../notes/006-00-%E7%B4%A2%E5%BC%95-%E7%84%8A%E6%8E%A5%E4%BC%A0%E7%83%AD%E5%AD%A6-MOC.html" data-title="焊接传热学 MOC">焊接传热学 MOC</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">01 绪论</div>
+<ul>
+<li><a class="side-link" href="../notes/007-01-%E7%BB%AA%E8%AE%BA-%E7%BB%AA%E8%AE%BA-%E7%84%8A%E6%8E%A5%E4%BC%A0%E7%83%AD%E5%AD%A6%E7%9A%84%E7%A0%94%E7%A9%B6%E5%AF%B9%E8%B1%A1%E4%B8%8E%E6%96%B9%E6%B3%95.html" data-title="绪论 焊接传热学的研究对象与方法">绪论 焊接传热学的研究对象与方法</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">02 第一章 传热学基础</div>
+<ul>
+<li><a class="side-link" href="../notes/008-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%C2%A71-1-%E7%84%8A%E6%8E%A5%E7%83%AD%E8%BF%87%E7%A8%8B%E7%9A%84%E7%89%B9%E7%82%B9.html" data-title="§1-1 焊接热过程的特点">§1-1 焊接热过程的特点</a></li>
+<li><a class="side-link" href="../notes/009-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%C2%A71-2-%E7%84%8A%E6%8E%A5%E7%83%AD%E6%BA%90%E5%92%8C%E7%84%8A%E6%8E%A5%E7%83%AD%E6%95%88%E7%8E%87.html" data-title="§1-2 焊接热源和焊接热效率">§1-2 焊接热源和焊接热效率</a></li>
+<li><a class="side-link" href="../notes/010-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%C2%A71-3-%E7%83%AD%E4%BC%A0%E9%80%92%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E5%BC%8F.html" data-title="§1-3 热传递的基本方式">§1-3 热传递的基本方式</a></li>
+<li><a class="side-link" href="../notes/011-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%C2%A71-4-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E5%8F%8A%E5%85%B6%E5%BD%B1%E5%93%8D%E5%9B%A0%E7%B4%A0.html" data-title="§1-4 焊接温度场及其影响因素">§1-4 焊接温度场及其影响因素</a></li>
+<li><a class="side-link" href="../notes/012-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%C2%A71-5-%E7%84%8A%E6%8E%A5%E4%BC%A0%E7%83%AD%E8%AE%A1%E7%AE%97%E5%9F%BA%E6%9C%AC%E5%85%AC%E5%BC%8F.html" data-title="§1-5 焊接传热计算基本公式">§1-5 焊接传热计算基本公式</a></li>
+<li><a class="side-link" href="../notes/013-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%C2%A71-6-%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6.html" data-title="§1-6 边界条件">§1-6 边界条件</a></li>
+<li><a class="side-link" href="../notes/014-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%C2%A71-7-%E7%9E%AC%E6%97%B6%E9%9B%86%E4%B8%AD%E7%83%AD%E6%BA%90%E4%BD%9C%E7%94%A8%E4%B8%8B%E7%9A%84%E6%B8%A9%E5%BA%A6%E5%9C%BA.html" data-title="§1-7 瞬时集中热源作用下的温度场">§1-7 瞬时集中热源作用下的温度场</a></li>
+<li><a class="side-link" href="../notes/015-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%C2%A71-8-%E8%A1%A8%E9%9D%A2%E6%95%A3%E7%83%AD%E5%92%8C%E5%8F%A0%E5%8A%A0%E5%8E%9F%E7%90%86.html" data-title="§1-8 表面散热和叠加原理">§1-8 表面散热和叠加原理</a></li>
+<li><a class="side-link" href="../notes/016-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E9%87%91%E5%B1%9E%E7%84%8A%E6%8E%A5%E7%9A%84%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80.html" data-title="第一章 金属焊接的传热学基础">第一章 金属焊接的传热学基础</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">03 第二章 温度场数学模型</div>
+<ul>
+<li><a class="side-link" href="../notes/017-03-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-%C2%A72-1-%E5%8E%9A%E5%A4%A7%E7%84%8A%E4%BB%B6%E8%BF%9E%E7%BB%AD%E7%84%8A%E6%8E%A5%E6%97%B6%E7%9A%84%E6%B8%A9%E5%BA%A6%E5%9C%BA.html" data-title="§2-1 厚大焊件连续焊接时的温度场">§2-1 厚大焊件连续焊接时的温度场</a></li>
+<li><a class="side-link" href="../notes/018-03-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-%C2%A72-2-%E8%96%84%E6%9D%BF%E7%84%8A%E6%8E%A5%E6%97%B6%E7%9A%84%E6%B8%A9%E5%BA%A6%E5%9C%BA.html" data-title="§2-2 薄板焊接时的温度场">§2-2 薄板焊接时的温度场</a></li>
+<li><a class="side-link" href="../notes/019-03-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-%C2%A72-3-%E7%BB%86%E6%A3%92%E7%84%8A%E6%8E%A5%E6%97%B6%E7%9A%84%E6%B8%A9%E5%BA%A6%E5%9C%BA.html" data-title="§2-3 细棒焊接时的温度场">§2-3 细棒焊接时的温度场</a></li>
+<li><a class="side-link" href="../notes/020-03-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-%C2%A72-4-%E6%9E%81%E9%99%90%E9%A5%B1%E5%92%8C%E7%8A%B6%E6%80%81%E6%97%B6%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E7%AE%80%E5%8C%96%E8%AE%A1%E7%AE%97%E6%B3%95.html" data-title="§2-4 极限饱和状态时温度场的简化计算法">§2-4 极限饱和状态时温度场的简化计算法</a></li>
+<li><a class="side-link" href="../notes/021-03-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-%C2%A72-5-%E5%8A%A0%E7%83%AD%E5%8F%8A%E5%86%B7%E5%8D%B4%E9%98%B6%E6%AE%B5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E8%AE%A1%E7%AE%97.html" data-title="§2-5 加热及冷却阶段温度场的计算">§2-5 加热及冷却阶段温度场的计算</a></li>
+<li><a class="side-link" href="../notes/022-03-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-%C2%A72-6-%E4%B8%AD%E5%8E%9A%E6%9D%BF%E7%84%8A%E6%8E%A5%E6%97%B6%E7%9A%84%E6%B8%A9%E5%BA%A6%E5%9C%BA%E8%AE%A1%E7%AE%97.html" data-title="§2-6 中厚板焊接时的温度场计算">§2-6 中厚板焊接时的温度场计算</a></li>
+<li><a class="side-link" href="../notes/023-03-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-%C2%A72-7-%E5%A4%A7%E5%8A%9F%E7%8E%87%E9%AB%98%E9%80%9F%E7%A7%BB%E5%8A%A8%E7%83%AD%E6%BA%90%E7%9A%84%E6%B8%A9%E5%BA%A6%E5%9C%BA%E8%AE%A1%E7%AE%97.html" data-title="§2-7 大功率高速移动热源的温度场计算">§2-7 大功率高速移动热源的温度场计算</a></li>
+<li><a class="side-link" href="../notes/024-03-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-%C2%A72-8-%E5%85%B6%E4%BB%96%E7%84%8A%E6%8E%A5%E6%96%B9%E6%B3%95%E7%9A%84%E6%B8%A9%E5%BA%A6%E5%9C%BA.html" data-title="§2-8 其他焊接方法的温度场">§2-8 其他焊接方法的温度场</a></li>
+<li><a class="side-link" href="../notes/025-03-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B.html" data-title="第二章 焊接温度场及其数学模型">第二章 焊接温度场及其数学模型</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">04 第三章 热循环参数</div>
+<ul>
+<li><a class="side-link" href="../notes/026-04-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%83%AD%E5%BE%AA%E7%8E%AF%E5%8F%82%E6%95%B0-%C2%A73-1-%E7%84%8A%E6%8E%A5%E7%83%AD%E5%BE%AA%E7%8E%AF%E7%9A%84%E7%89%B9%E5%BE%81.html" data-title="§3-1 焊接热循环的特征">§3-1 焊接热循环的特征</a></li>
+<li><a class="side-link" href="../notes/027-04-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%83%AD%E5%BE%AA%E7%8E%AF%E5%8F%82%E6%95%B0-%C2%A73-2-%E7%84%8A%E6%8E%A5%E7%83%AD%E5%BE%AA%E7%8E%AF%E5%8F%82%E6%95%B0%E7%9A%84%E6%95%B0%E5%AD%A6%E8%A7%A3%E6%9E%90.html" data-title="§3-2 焊接热循环参数的数学解析">§3-2 焊接热循环参数的数学解析</a></li>
+<li><a class="side-link" href="../notes/028-04-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%83%AD%E5%BE%AA%E7%8E%AF%E5%8F%82%E6%95%B0-%C2%A73-3-%E5%86%B7%E5%8D%B4%E6%97%B6%E9%97%B4%E7%9A%84%E8%AE%A1%E7%AE%97%E5%8F%8A%E5%85%B6%E5%BD%B1%E5%93%8D%E5%9B%A0%E7%B4%A0.html" data-title="§3-3 冷却时间的计算及其影响因素">§3-3 冷却时间的计算及其影响因素</a></li>
+<li><a class="side-link" href="../notes/029-04-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%83%AD%E5%BE%AA%E7%8E%AF%E5%8F%82%E6%95%B0-%C2%A73-4-%E5%86%B7%E5%8D%B4%E6%97%B6%E9%97%B4%E4%B8%8E%E7%83%AD%E5%BD%B1%E5%93%8D%E5%8C%BA%E7%BB%84%E7%BB%87%E5%8F%8A%E7%A1%AC%E5%BA%A6.html" data-title="§3-4 冷却时间与热影响区组织及硬度">§3-4 冷却时间与热影响区组织及硬度</a></li>
+<li><a class="side-link" href="../notes/030-04-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%83%AD%E5%BE%AA%E7%8E%AF%E5%8F%82%E6%95%B0-%C2%A73-5-%E5%A4%9A%E5%B1%82%E7%84%8A%E7%84%8A%E6%8E%A5%E7%83%AD%E5%BE%AA%E7%8E%AF.html" data-title="§3-5 多层焊焊接热循环">§3-5 多层焊焊接热循环</a></li>
+<li><a class="side-link" href="../notes/031-04-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%83%AD%E5%BE%AA%E7%8E%AF%E5%8F%82%E6%95%B0-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%84%8A%E6%8E%A5%E7%83%AD%E5%BE%AA%E7%8E%AF%E5%8F%82%E6%95%B0%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8.html" data-title="第三章 焊接热循环参数及其应用">第三章 焊接热循环参数及其应用</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">05 第四章 数值积分</div>
+<ul>
+<li><a class="side-link" href="../notes/032-05-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%C2%A74-1-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E6%95%B0%E5%80%BC%E8%A7%A3%E6%B3%95.html" data-title="§4-1 焊接温度场的数值解法">§4-1 焊接温度场的数值解法</a></li>
+<li><a class="side-link" href="../notes/033-05-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%C2%A74-2-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86%E7%9A%84%E4%B8%80%E8%88%AC%E6%A6%82%E5%BF%B5.html" data-title="§4-2 数值积分的一般概念">§4-2 数值积分的一般概念</a></li>
+<li><a class="side-link" href="../notes/034-05-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%C2%A74-3-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86%E8%A7%A3%E6%B3%95.html" data-title="§4-3 焊接温度场的数值积分解法">§4-3 焊接温度场的数值积分解法</a></li>
+<li><a class="side-link" href="../notes/035-05-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86%E8%A7%A3%E6%B3%95.html" data-title="第四章 焊接温度场的数值积分解法">第四章 焊接温度场的数值积分解法</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">06 第五章 有限差分</div>
+<ul>
+<li><a class="side-link" href="../notes/036-06-%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86-%C2%A75-1-%E7%94%A8%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95%E8%A7%A3%E7%A8%B3%E5%AE%9A%E7%83%AD%E4%BC%A0%E5%AF%BC%E9%97%AE%E9%A2%98.html" data-title="§5-1 用有限差分法解稳定热传导问题">§5-1 用有限差分法解稳定热传导问题</a></li>
+<li><a class="side-link" href="../notes/037-06-%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86-%C2%A75-2-%E7%94%A8%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95%E8%A7%A3%E4%B8%8D%E7%A8%B3%E5%AE%9A%E7%83%AD%E4%BC%A0%E5%AF%BC%E9%97%AE%E9%A2%98.html" data-title="§5-2 用有限差分法解不稳定热传导问题">§5-2 用有限差分法解不稳定热传导问题</a></li>
+<li><a class="side-link" href="../notes/038-06-%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86-%C2%A75-3-%E7%94%A8%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95%E8%AE%A1%E7%AE%97%E7%84%8A%E6%8E%A5%E7%83%AD%E4%BC%A0%E5%AF%BC%E9%97%AE%E9%A2%98.html" data-title="§5-3 用有限差分法计算焊接热传导问题">§5-3 用有限差分法计算焊接热传导问题</a></li>
+<li><a class="side-link" href="../notes/039-06-%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86-%E7%AC%AC%E4%BA%94%E7%AB%A0-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E8%A7%A3%E6%B3%95.html" data-title="第五章 焊接温度场的有限差分解法">第五章 焊接温度场的有限差分解法</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">07 第六章 有限元</div>
+<ul>
+<li><a class="side-link" href="../notes/040-07-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E6%9C%89%E9%99%90%E5%85%83-%C2%A76-1-%E5%9F%BA%E4%BA%8E%E5%8F%98%E5%88%86%E6%B3%95%E7%9A%84%E7%83%AD%E4%BC%A0%E5%AF%BC%E9%97%AE%E9%A2%98%E6%9C%89%E9%99%90%E5%85%83%E5%88%86%E6%9E%90.html" data-title="§6-1 基于变分法的热传导问题有限元分析">§6-1 基于变分法的热传导问题有限元分析</a></li>
+<li><a class="side-link" href="../notes/041-07-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E6%9C%89%E9%99%90%E5%85%83-%C2%A76-2-%E5%9F%BA%E4%BA%8E%E6%9D%83%E4%BD%99%E5%80%BC%E6%B3%95%E7%9A%84%E7%83%AD%E4%BC%A0%E5%AF%BC%E9%97%AE%E9%A2%98%E6%9C%89%E9%99%90%E5%85%83%E5%88%86%E6%9E%90.html" data-title="§6-2 基于权余值法的热传导问题有限元分析">§6-2 基于权余值法的热传导问题有限元分析</a></li>
+<li><a class="side-link" href="../notes/042-07-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E6%9C%89%E9%99%90%E5%85%83-%C2%A76-3-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E6%95%B0%E5%AD%A6%E6%A8%A1%E5%9E%8B.html" data-title="§6-3 焊接温度场的数学模型">§6-3 焊接温度场的数学模型</a></li>
+<li><a class="side-link" href="../notes/043-07-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E6%9C%89%E9%99%90%E5%85%83-%C2%A76-4-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E5%88%B6%E5%92%8C%E5%AE%9E%E4%BE%8B%E5%88%86%E6%9E%90.html" data-title="§6-4 计算机程序的编制和实例分析">§6-4 计算机程序的编制和实例分析</a></li>
+<li><a class="side-link" href="../notes/044-07-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E6%9C%89%E9%99%90%E5%85%83-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E6%9C%89%E9%99%90%E5%85%83%E8%A7%A3%E6%B3%95.html" data-title="第六章 焊接温度场的有限元解法">第六章 焊接温度场的有限元解法</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">08 第七章 热象法</div>
+<ul>
+<li><a class="side-link" href="../notes/045-08-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%83%AD%E8%B1%A1%E6%B3%95-%C2%A77-1-%E7%83%AD%E8%B1%A1%E6%B3%95%E6%A6%82%E8%BF%B0.html" data-title="§7-1 热象法概述">§7-1 热象法概述</a></li>
+<li><a class="side-link" href="../notes/046-08-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%83%AD%E8%B1%A1%E6%B3%95-%C2%A77-2-%E7%83%AD%E8%B1%A1%E6%B3%95%E6%B5%8B%E6%B8%A9%E5%8E%9F%E7%90%86%E5%8F%8A%E6%B8%A9%E5%BA%A6%E5%AE%9A%E6%A0%87.html" data-title="§7-2 热象法测温原理及温度定标">§7-2 热象法测温原理及温度定标</a></li>
+<li><a class="side-link" href="../notes/047-08-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%83%AD%E8%B1%A1%E6%B3%95-%C2%A77-3-%E7%83%AD%E8%B1%A1%E6%B3%95%E6%B5%8B%E5%AE%9A%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E8%A3%85%E7%BD%AE.html" data-title="§7-3 热象法测定焊接温度场装置">§7-3 热象法测定焊接温度场装置</a></li>
+<li><a class="side-link" href="../notes/048-08-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%83%AD%E8%B1%A1%E6%B3%95-%C2%A77-4-%E7%83%AD%E8%B1%A1%E6%B3%95%E6%B5%8B%E5%AE%9A%E6%B8%A9%E5%BA%A6%E5%9C%BA.html" data-title="§7-4 热象法测定温度场">§7-4 热象法测定温度场</a></li>
+<li><a class="side-link" href="../notes/049-08-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%83%AD%E8%B1%A1%E6%B3%95-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E7%83%AD%E8%B1%A1%E6%B3%95%E6%B5%8B%E5%AE%9A%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA.html" data-title="第七章 热象法测定焊接温度场">第七章 热象法测定焊接温度场</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">09 概念卡</div>
+<ul>
+<li><a class="side-link type-card" href="../notes/050-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-800-500%E2%84%83%E5%86%B7%E5%8D%B4%E6%97%B6%E9%97%B4.html" data-title="800-500℃冷却时间">800-500℃冷却时间</a></li>
+<li><a class="side-link type-card" href="../notes/051-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-Rosenthal-%E6%96%B9%E7%A8%8B.html" data-title="Rosenthal 方程">Rosenthal 方程</a></li>
+<li><a class="side-link type-card" href="../notes/052-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-SHCCT-%E5%9B%BE.html" data-title="SHCCT 图">SHCCT 图</a></li>
+<li><a class="side-link type-card" href="../notes/053-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E4%B8%AD%E5%8E%9A%E6%9D%BF%E4%BC%A0%E7%83%AD%E6%A8%A1%E5%9E%8B.html" data-title="中厚板传热模型">中厚板传热模型</a></li>
+<li><a class="side-link type-card" href="../notes/054-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E4%B8%B4%E7%95%8C%E6%9D%BF%E5%8E%9A.html" data-title="临界板厚">临界板厚</a></li>
+<li><a class="side-link type-card" href="../notes/055-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%87%86%E7%A8%B3%E6%80%81%E6%B8%A9%E5%BA%A6%E5%9C%BA.html" data-title="准稳态温度场">准稳态温度场</a></li>
+<li><a class="side-link type-card" href="../notes/056-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%8A%A0%E6%9D%83%E4%BD%99%E5%80%BC%E6%B3%95.html" data-title="加权余值法">加权余值法</a></li>
+<li><a class="side-link type-card" href="../notes/057-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%8A%A0%E7%83%AD%E6%96%91%E7%82%B9%E4%B8%8E%E7%83%AD%E6%B5%81%E5%88%86%E5%B8%83.html" data-title="加热斑点与热流分布">加热斑点与热流分布</a></li>
+<li><a class="side-link type-card" href="../notes/058-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%8F%91%E5%B0%84%E7%8E%87.html" data-title="发射率">发射率</a></li>
+<li><a class="side-link type-card" href="../notes/059-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%8F%98%E5%88%86%E5%8E%9F%E7%90%86.html" data-title="变分原理">变分原理</a></li>
+<li><a class="side-link type-card" href="../notes/060-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%8F%A0%E5%8A%A0%E5%8E%9F%E7%90%86.html" data-title="叠加原理">叠加原理</a></li>
+<li><a class="side-link type-card" href="../notes/061-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%A4%9A%E5%B1%82%E7%84%8A%E7%83%AD%E5%BE%AA%E7%8E%AF.html" data-title="多层焊热循环">多层焊热循环</a></li>
+<li><a class="side-link type-card" href="../notes/062-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%AE%B9%E7%A7%AF%E6%AF%94%E7%83%AD%E5%AE%B9.html" data-title="容积比热容">容积比热容</a></li>
+<li><a class="side-link type-card" href="../notes/063-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%AF%BC%E7%83%AD%E7%B3%BB%E6%95%B0.html" data-title="导热系数">导热系数</a></li>
+<li><a class="side-link type-card" href="../notes/064-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%B3%B0%E5%80%BC%E6%B8%A9%E5%BA%A6.html" data-title="峰值温度">峰值温度</a></li>
+<li><a class="side-link type-card" href="../notes/065-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%B7%AE%E5%88%86%E7%A8%B3%E5%AE%9A%E6%80%A7%E6%9D%A1%E4%BB%B6.html" data-title="差分稳定性条件">差分稳定性条件</a></li>
+<li><a class="side-link type-card" href="../notes/066-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86%E6%B3%95.html" data-title="数值积分法">数值积分法</a></li>
+<li><a class="side-link type-card" href="../notes/067-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%98%BE%E5%BC%8F%E5%B7%AE%E5%88%86%E6%A0%BC%E5%BC%8F.html" data-title="显式差分格式">显式差分格式</a></li>
+<li><a class="side-link type-card" href="../notes/068-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%9C%89%E9%99%90%E5%85%83%E6%B3%95.html" data-title="有限元法">有限元法</a></li>
+<li><a class="side-link type-card" href="../notes/069-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95.html" data-title="有限差分法">有限差分法</a></li>
+<li><a class="side-link type-card" href="../notes/070-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%9E%81%E9%99%90%E9%A5%B1%E5%92%8C%E7%8A%B6%E6%80%81.html" data-title="极限饱和状态">极限饱和状态</a></li>
+<li><a class="side-link type-card" href="../notes/071-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%B8%A9%E5%BA%A6%E5%9C%BA%E4%B8%8E%E7%AD%89%E6%B8%A9%E7%BA%BF.html" data-title="温度场与等温线">温度场与等温线</a></li>
+<li><a class="side-link type-card" href="../notes/072-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%B8%A9%E5%BA%A6%E5%AE%9A%E6%A0%87.html" data-title="温度定标">温度定标</a></li>
+<li><a class="side-link type-card" href="../notes/073-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%B8%A9%E5%BA%A6%E6%A2%AF%E5%BA%A6.html" data-title="温度梯度">温度梯度</a></li>
+<li><a class="side-link type-card" href="../notes/074-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%82%B9%E7%8A%B6%E7%83%AD%E6%BA%90.html" data-title="点状热源">点状热源</a></li>
+<li><a class="side-link type-card" href="../notes/075-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%83%AD%E4%BC%A0%E5%AF%BC%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B.html" data-title="热传导微分方程">热传导微分方程</a></li>
+<li><a class="side-link type-card" href="../notes/076-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%83%AD%E6%89%A9%E6%95%A3%E7%8E%87.html" data-title="热扩散率">热扩散率</a></li>
+<li><a class="side-link type-card" href="../notes/077-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%84%8A%E6%8E%A5%E7%83%AD%E5%BE%AA%E7%8E%AF.html" data-title="焊接热循环">焊接热循环</a></li>
+<li><a class="side-link type-card" href="../notes/078-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%84%8A%E6%8E%A5%E7%83%AD%E6%95%88%E7%8E%87.html" data-title="焊接热效率">焊接热效率</a></li>
+<li><a class="side-link type-card" href="../notes/079-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%84%8A%E6%8E%A5%E7%83%AD%E8%BF%87%E7%A8%8B.html" data-title="焊接热过程">焊接热过程</a></li>
+<li><a class="side-link type-card" href="../notes/080-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%9B%B8%E5%8F%98%E6%B8%A9%E5%BA%A6%E4%BB%A5%E4%B8%8A%E5%81%9C%E7%95%99%E6%97%B6%E9%97%B4.html" data-title="相变温度以上停留时间">相变温度以上停留时间</a></li>
+<li><a class="side-link type-card" href="../notes/081-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%9B%B8%E5%8F%98%E6%BD%9C%E7%83%AD%E5%A4%84%E7%90%86.html" data-title="相变潜热处理">相变潜热处理</a></li>
+<li><a class="side-link type-card" href="../notes/082-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%9E%AC%E6%97%B6%E5%86%B7%E5%8D%B4%E9%80%9F%E5%BA%A6.html" data-title="瞬时冷却速度">瞬时冷却速度</a></li>
+<li><a class="side-link type-card" href="../notes/083-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%9E%AC%E6%97%B6%E9%9B%86%E4%B8%AD%E7%83%AD%E6%BA%90.html" data-title="瞬时集中热源">瞬时集中热源</a></li>
+<li><a class="side-link type-card" href="../notes/084-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%A2%B3%E5%BD%93%E9%87%8F.html" data-title="碳当量">碳当量</a></li>
+<li><a class="side-link type-card" href="../notes/085-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%BA%A2%E5%A4%96%E7%83%AD%E8%B1%A1%E6%B3%95.html" data-title="红外热象法">红外热象法</a></li>
+<li><a class="side-link type-card" href="../notes/086-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%BA%BF%E7%8A%B6%E7%83%AD%E6%BA%90.html" data-title="线状热源">线状热源</a></li>
+<li><a class="side-link type-card" href="../notes/087-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E7%BA%BF%E8%83%BD%E9%87%8F.html" data-title="线能量">线能量</a></li>
+<li><a class="side-link type-card" href="../notes/088-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6.html" data-title="边界条件">边界条件</a></li>
+<li><a class="side-link type-card" href="../notes/089-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E9%9A%90%E5%BC%8F%E5%B7%AE%E5%88%86%E6%A0%BC%E5%BC%8F.html" data-title="隐式差分格式">隐式差分格式</a></li>
+<li><a class="side-link type-card" href="../notes/090-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E9%9D%A2%E7%8A%B6%E7%83%AD%E6%BA%90.html" data-title="面状热源">面状热源</a></li>
+<li><a class="side-link type-card" href="../notes/091-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E9%AB%98%E6%96%AF%E6%B1%82%E7%A7%AF.html" data-title="高斯求积">高斯求积</a></li>
+<li><a class="side-link type-card" href="../notes/092-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E9%AB%98%E9%80%9F%E7%A7%BB%E5%8A%A8%E7%83%AD%E6%BA%90.html" data-title="高速移动热源">高速移动热源</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">10 公式库</div>
+<ul>
+<li><a class="side-link" href="../notes/093-10-%E5%85%AC%E5%BC%8F%E5%BA%93-%E4%BB%8E%E7%9E%AC%E6%97%B6%E7%82%B9%E7%83%AD%E6%BA%90%E5%88%B0-t8-5-%E7%9A%84%E6%8E%A8%E5%AF%BC%E9%93%BE.html" data-title="从瞬时点热源到 t8-5 的推导链">从瞬时点热源到 t8-5 的推导链</a></li>
+<li><a class="side-link" href="../notes/094-10-%E5%85%AC%E5%BC%8F%E5%BA%93-%E5%85%AC%E5%BC%8F%E6%80%BB%E8%A1%A8.html" data-title="公式总表">公式总表</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">11 附表数据</div>
+<ul>
+<li><a class="side-link" href="../notes/095-11-%E9%99%84%E8%A1%A8%E6%95%B0%E6%8D%AE-%E9%99%84%E8%A1%A8%E5%87%BD%E6%95%B0%E8%A1%A8%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" data-title="附表函数表使用指南">附表函数表使用指南</a></li>
+</ul></div>
+<div class="side-group">
+<div class="side-group-label">12 术语</div>
+<ul>
+<li><a class="side-link" href="../notes/096-12-%E6%9C%AF%E8%AF%AD-%E6%9C%AF%E8%AF%AD%E4%B8%AD%E8%8B%B1%E5%AF%B9%E7%85%A7.html" data-title="术语中英对照">术语中英对照</a></li>
+</ul></div></div>
+  </nav>
+  <main class="content">
+    <article class="note">
+<div class="note-head"><div class="crumb">06 第五章 有限差分/§5-1 用有限差分法解稳定热传导问题</div><h1>§5-1 用有限差分法解稳定热传导问题</h1><div class="meta-row"><span class="tag">焊接传热学</span><span class="tag">章/05</span><span class="tag">主题/数值解</span><span class="tag">类型/公式</span><span class="tag">类型/方法</span><span class="meta-chip">书 p.94</span><span class="meta-chip">PDF p.98</span><span class="meta-chip">第 5 章</span><span class="meta-chip">§5-1</span></div></div><blockquote>
+<p>📄 原文：<span class="pdf-ref" title="原书 PDF 引用（仓库不含 PDF）">📄 原书 PDF 第 98 页</span>（书 p.94–98）</p>
+</blockquote>
+<h2>§5-1 用有限差分法解稳定热传导问题</h2>
+<h2>核心结论</h2>
+<ul>
+<li><strong>有限差商</strong>：连续函数 <span class="math-inline">$f(x)$</span> 的增量与自变量增量之比；自变量增量趋于零时，其极限就是微商——所以差商是微商的<strong>近似</strong>，必然带来误差（p.94）。</li>
+<li>向前差商、向后差商的截断误差是 <span class="math-inline">$O(\Delta x)$</span>；<strong>中心差商（前向与后向的算术平均）是 <span class="math-inline">$O((\Delta x)^2)$</span>，精度高一个量级</strong>（p.94）。</li>
+<li>一阶差商仍是 <span class="math-inline">$x$</span> 的函数，可继续求差商；二阶差商取"前向差商与后向差商之差再除以 <span class="math-inline">$\Delta x$</span>"，其截断误差<strong>仍是 <span class="math-inline">$O((\Delta x)^2)$</span></strong>（p.94–95）。</li>
+<li>求解步骤固定五步：<strong>离散化 → 内节点差分方程 → 边界节点差分形式 → 组成差分格式 <span class="math-inline">$[A]\{T\}=\{B\}$</span> → 解线性方程组</strong>（p.96–98）。</li>
+<li>无内热源、<span class="math-inline">$\Delta x=\Delta y$</span> 时内节点方程就是 <strong>Laplace 五点格式</strong>：某点温度等于四邻温度平均值；由此<strong>温度场的极值必然出现在边界上</strong>（p.96）。</li>
+<li>边界节点差分有三个易被忽视的规矩：<strong>每点只属于一种边界条件</strong>、<strong>力求与内节点截断误差一致</strong>、<strong>边界不落在节点上（曲线边界）要特殊处理</strong>（p.97）。</li>
+</ul>
+<h2>公式与推导</h2>
+<h3>式(5-1)(5-2)(5-3) 三种差商</h3>
+<p>向前差商：
+<span class="math-block">$$\frac{f(x+\Delta x)-f(x)}{\Delta x} \tag{5-1}$$</span>
+向后差商：
+<span class="math-block">$$\frac{f(x)-f(x-\Delta x)}{\Delta x} \tag{5-2}$$</span>
+中心差商（向前差商与向后差商的算术平均）：
+<span class="math-block">$$\frac{f(x+\Delta x)-f(x-\Delta x)}{2\Delta x} \tag{5-3}$$</span></p>
+<h3>式(5-4)(5-5)(5-6)(5-7) 截断误差（Taylor 展开）</h3>
+<p>将 <span class="math-inline">$f(x\pm\Delta x)$</span> 按 Taylor 级数展开、略去高阶小量：</p>
+<span class="math-block block">$$\frac{f(x+\Delta x)-f(x)}{\Delta x}=\frac{\mathrm df}{\mathrm dx}+\frac{\Delta x}{2!}\frac{\mathrm d^2f}{\mathrm dx^2}+\cdots=\frac{\mathrm df}{\mathrm dx}+O(\Delta x) \tag{5-4}$$</span>
+<span class="math-block block">$$\frac{f(x)-f(x-\Delta x)}{\Delta x}=\frac{\mathrm df}{\mathrm dx}-\frac{\Delta x}{2!}\frac{\mathrm d^2f}{\mathrm dx^2}+\cdots=\frac{\mathrm df}{\mathrm dx}+O(\Delta x) \tag{5-5}$$</span>
+<span class="math-block block">$$\frac{f(x+\Delta x)-f(x-\Delta x)}{2\Delta x}=\frac{\mathrm df}{\mathrm dx}+\frac{(\Delta x)^2}{3!}\frac{\mathrm d^3f}{\mathrm dx^3}+\cdots=\frac{\mathrm df}{\mathrm dx}+O\left((\Delta x)^2\right) \tag{5-6}$$</span>
+<p>二阶差商（式(5-4) 减式(5-5)，再除以 <span class="math-inline">$\Delta x$</span>）：</p>
+<span class="math-block block">$$\frac{f(x+\Delta x)-2f(x)+f(x-\Delta x)}{(\Delta x)^2}=\frac{\mathrm d^2f}{\mathrm dx^2}+O\left((\Delta x)^2\right) \tag{5-7}$$</span>
+<p><strong>符号</strong>：<span class="math-inline">$\Delta x$</span> 步长；<span class="math-inline">$O(\cdot)$</span> 截断误差（用 Taylor 级数的有限项代替无穷多项所造成）。
+<strong>量纲检查</strong>：左端 <span class="math-inline">$[f]/[x]$</span>（式5-1～5-6）、<span class="math-inline">$[f]/[x]^2$</span>（式5-7），与右端微商量纲一致 ✓；<span class="math-inline">$\Delta x$</span> 与 <span class="math-inline">$x$</span> 同量纲，故 <span class="math-inline">$O(\Delta x)$</span> 的量纲讨论无矛盾。
+<strong>关键结论</strong>：
+- 前向/后向差商：<strong>一阶精度</strong>；
+- 中心差商：<strong>二阶精度</strong>（一阶导数的）；
+- 二阶差商：<strong>二阶精度</strong>（<span class="math-inline">$\Delta x$</span> 的偶次项相消，误差从 <span class="math-inline">$O(\Delta x)$</span> 提到 <span class="math-inline">$O((\Delta x)^2)$</span>）。</p>
+<h3>式(5-8) 稳定热传导微分方程（二维、有内热源）</h3>
+<p>厚度为 1、边长 <span class="math-inline">$L_x\times L_y$</span>、导热系数 <span class="math-inline">$\lambda$</span> 的平板，内部作用热源强度 <span class="math-inline">$Q'$</span>：</p>
+<span class="math-block block">$$\frac{\partial^2T}{\partial x^2}+\frac{\partial^2T}{\partial y^2}+\frac{Q'}{\lambda}=0 \tag{5-8}$$</span>
+<p><strong>符号</strong>：<span class="math-inline">$Q'$</span> 内热源强度 W/cm³；<span class="math-inline">$\lambda$</span> W/(cm·℃)。
+<strong>量纲检查</strong>：<span class="math-inline">$\partial^2T/\partial x^2$</span> 量纲 ℃/cm²；<span class="math-inline">$Q'/\lambda$</span> = (W/cm³)/(W/(cm·℃)) = ℃/cm² ✓。
+<strong>说明</strong>：<span class="math-inline">$Q'=0$</span> 时退化为 Laplace 方程 <span class="math-inline">$\nabla^2T=0$</span>。</p>
+<h3>式(5-9)(5-10)(5-11)(5-12) 四条边界条件</h3>
+<table>
+<thead>
+<tr>
+<th>边界</th>
+<th>位置</th>
+<th>条件</th>
+<th>式号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>对流换热</td>
+<td><span class="math-inline">$x=0,\ 0<y<L_y$</span></td>
+<td><span class="math-inline">$-\lambda\dfrac{\partial T}{\partial x}=\alpha\left(T_f-T\right)$</span></td>
+<td>(5-9)</td>
+</tr>
+<tr>
+<td>给定热流</td>
+<td><span class="math-inline">$y=0,\ 0\le x\le L_x$</span></td>
+<td><span class="math-inline">$-\lambda\dfrac{\partial T}{\partial y}=q$</span></td>
+<td>(5-10)</td>
+</tr>
+<tr>
+<td>绝热</td>
+<td><span class="math-inline">$x=L_x,\ 0<y<L_y$</span></td>
+<td><span class="math-inline">$\dfrac{\partial T}{\partial x}=0$</span></td>
+<td>(5-11)</td>
+</tr>
+<tr>
+<td>给定温度</td>
+<td><span class="math-inline">$y=L_y,\ 0\le x\le L_x$</span></td>
+<td><span class="math-inline">$T=T_s$</span></td>
+<td>(5-12)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>符号</strong>：<span class="math-inline">$\alpha$</span> 对流换热系数 W/(cm²·℃)；<span class="math-inline">$T_f$</span> 环境温度；<span class="math-inline">$q$</span> 给定热流 W/cm²；<span class="math-inline">$T_s$</span> 给定温度。
+<strong>符号约定（重要）</strong>：<span class="math-inline">$q$</span> 与 <span class="math-inline">$T_f$</span> 均按"<strong>流入求解域为正</strong>"取号。这样式(5-9) 在 <span class="math-inline">$x=0$</span> 处（内法线为 <span class="math-inline">$+x$</span>）写成 <span class="math-inline">$-\lambda\partial T/\partial x=\alpha(T_f-T)$</span>，式(5-10) 在 <span class="math-inline">$y=0$</span> 处（内法线为 <span class="math-inline">$+y$</span>）写成 <span class="math-inline">$-\lambda\partial T/\partial y=q$</span>，两式离散后分别为 <span class="math-inline">$(1+\beta)T_{1,j}-T_{2,j}=\beta T_f$</span> 与 <span class="math-inline">$T_{i,1}-T_{i,2}=C$</span>，符号自洽。
+<strong>量纲检查</strong>：<span class="math-inline">$\alpha(T_f-T)$</span> = W/cm²；<span class="math-inline">$\lambda\partial T/\partial x$</span> = (W/(cm·℃))(℃/cm) = W/cm² ✓。
+书中明确：<strong>不考虑平板上、下表面与周围环境的热交换</strong>（厚度方向绝热，故问题退化为二维）（p.95）。</p>
+<h3>一、离散化</h3>
+<p>把连续求解区域划分成网格（图5-2 的例子划成 <strong>16 个网格</strong>，<span class="math-inline">$5\times5=25$</span> 个节点）：</p>
+<ul>
+<li>网格线交点 = <strong>节点</strong>；节点间距离 = <strong>步长</strong>，<span class="math-inline">$x$</span> 向 <span class="math-inline">$\Delta x$</span>、<span class="math-inline">$y$</span> 向 <span class="math-inline">$\Delta y$</span>；</li>
+<li>节点坐标 <span class="math-inline">$(i\Delta x,\ j\Delta y)$</span> 记作 <span class="math-inline">$(i,j)$</span>，<span class="math-inline">$i,j$</span> 为整数；节点温度记 <span class="math-inline">$T(i,j)$</span> 或 <span class="math-inline">$T_{i,j}$</span>；</li>
+<li>区域内节点 = <strong>内节点</strong>，边界上节点 = <strong>边界节点</strong>；规则区域中边界节点与边界重合，曲线边界则不重合（p.96）。</li>
+</ul>
+<h3>式(5-13)(5-14) 内节点差分方程</h3>
+<p>对区域内任一节点 <span class="math-inline">$(i,j)$</span>，把式(5-7) 的二阶差商代入：</p>
+<span class="math-block block">$$\left(\frac{\partial^2T}{\partial x^2}\right)_{i,j}=\frac{T_{i+1,j}-2T_{i,j}+T_{i-1,j}}{(\Delta x)^2}+O\left((\Delta x)^2\right),\qquad i=2,3,4;\ j=2,3,4 \tag{5-13}$$</span>
+<span class="math-block block">$$\left(\frac{\partial^2T}{\partial y^2}\right)_{i,j}=\frac{T_{i,j+1}-2T_{i,j}+T_{i,j-1}}{(\Delta y)^2}+O\left((\Delta y)^2\right),\qquad i=2,3,4;\ j=2,3,4 \tag{5-14}$$</span>
+<p>代入式(5-8)、略去截断误差：</p>
+<span class="math-block block">$$\frac{T_{i+1,j}-2T_{i,j}+T_{i-1,j}}{(\Delta x)^2}+\frac{T_{i,j+1}-2T_{i,j}+T_{i,j-1}}{(\Delta y)^2}+\frac{Q'}{\lambda}=0$$</span>
+<p><strong>量纲检查</strong>：三项均为 ℃/cm² ✓。</p>
+<h3>式(5-15) Laplace 五点差分格式</h3>
+<p>上式中取 <span class="math-inline">$\Delta x=\Delta y=l$</span>、<span class="math-inline">$Q'=0$</span>：</p>
+<span class="math-block block">$$-4T_{i,j}+T_{i+1,j}+T_{i-1,j}+T_{i,j+1}+T_{i,j-1}=0$$</span>
+<p>即</p>
+<span class="math-block block">$$T_{i,j}=\frac14\left(T_{i+1,j}+T_{i-1,j}+T_{i,j+1}+T_{i,j-1}\right) \tag{5-15}$$</span>
+<p><strong>含义</strong>：无热源的稳定导热中，<strong>每一点的温度是周围四点温度的算术平均值</strong>。
+<strong>推论（常考）</strong>：既然每点都是邻点的平均值，<strong>温度场的极值必然出现在边界上</strong>——内部不可能有比四周都高的点（p.96）。
+<strong>自检</strong>：把 <span class="math-inline">$T=$</span> 常数代回恒成立 ✓；把 <span class="math-inline">$T=x$</span> 线性场代入亦成立（离散 Laplace 精确表示线性函数）✓。</p>
+<h3>式(5-16)～(5-19) 边界节点的差分形式</h3>
+<p>仍用"差商代替微商"，把定解条件写成差分形式。</p>
+<p><strong>（1）对流换热边界</strong>（<span class="math-inline">$x=0$</span>，即 <span class="math-inline">$i=1$</span>；用向前差商代替 <span class="math-inline">$\partial T/\partial x$</span>）：</p>
+<span class="math-block block">$$-\lambda\frac{T_{2,j}-T_{1,j}}{\Delta x}=\alpha\left(T_f-T_{1,j}\right)$$</span>
+<p>整理并令 <span class="math-inline">$\beta=\dfrac{\alpha\Delta x}{\lambda}$</span>：</p>
+<span class="math-block block">$$\left(\beta+1\right)T_{1,j}-T_{2,j}=\beta T_f,\qquad i=1;\ j=2,3,4 \tag{5-16}$$</span>
+<p><strong>量纲检查</strong>：<span class="math-inline">$\beta=\alpha\Delta x/\lambda$</span> = [(W/cm²℃)·cm]/[W/(cm℃)] = 1（无量纲）✓；<span class="math-inline">$(\beta+1)T-T$</span> 为温度，<span class="math-inline">$\beta T_f$</span> 为温度 ✓。</p>
+<p><strong>（2）给定热流边界</strong>（<span class="math-inline">$y=0$</span>，即 <span class="math-inline">$j=1$</span>）：</p>
+<span class="math-block block">$$-\lambda\frac{T_{i,2}-T_{i,1}}{\Delta y}=q\ \Longrightarrow\ T_{i,1}-T_{i,2}=C,\qquad C=\frac{q\Delta y}{\lambda},\quad i=1,2,3,4;\ j=1 \tag{5-17}$$</span>
+<p><strong>量纲检查</strong>：<span class="math-inline">$C=q\Delta y/\lambda$</span> = [(W/cm²)·cm]/[W/(cm℃)] = ℃ ✓。</p>
+<p><strong>（3）绝热边界</strong>（<span class="math-inline">$x=L_x$</span>，即 <span class="math-inline">$i=5$</span>）：</p>
+<span class="math-block block">$$\frac{T_{5,j}-T_{4,j}}{\Delta x}=0\ \Longrightarrow\ T_{5,j}-T_{4,j}=0 \tag{5-18}$$</span>
+<p><strong>（4）给定温度边界</strong>（<span class="math-inline">$y=L_y$</span>，即 <span class="math-inline">$j=5$</span>）：</p>
+<span class="math-block block">$$T_{i,j}=T_s,\qquad i=1,2,3,4,5;\ j=5 \tag{5-19}$$</span>
+<blockquote>
+<p>边界节点差分有三个规矩（p.97）：
+1. <strong>每个边界节点只能属于一种边界条件</strong>。如图5-2 中 <span class="math-inline">$i=1,j=5$</span> 的角点既在 <span class="math-inline">$x=0$</span>（对流）上、又在 <span class="math-inline">$y=L_y$</span>（给定温度）上，规定它<strong>只属于给定温度边界</strong>式(5-12)。
+2. <strong>力求边界节点与内节点的截断误差一致</strong>。上面对流/热流边界用了一阶（前向）差商，截断误差比内节点的 <span class="math-inline">$O((\Delta x)^2)$</span> 差一阶；弥补办法是改用<strong>中心差商</strong>（§5-2 的"虚设节点法"）。
+3. 边界节点<strong>不落在边界上</strong>（曲线边界）时须特殊处理。</p>
+</blockquote>
+<h3>式(5-20)(5-21) 差分格式与矩阵形式</h3>
+<p>式(5-8)～(5-12) 都是线性关系，由此生成的差分方程构成<strong>线性代数方程组</strong>；把规格化后的全部差分方程形成的线性代数方程组称为<strong>差分格式</strong>，通常写成</p>
+<span class="math-block block">$$[A]\{T\}=\{B\} \tag{5-20}$$</span>
+<p>其中 <span class="math-inline">$[A]$</span> 系数矩阵（通常是方阵，<span class="math-inline">$n\times n$</span>），<span class="math-inline">$\{B\}$</span> 右端项列向量，<span class="math-inline">$\{T\}$</span> 节点温度列向量：</p>
+<span class="math-block block">$$[A]=\begin{bmatrix}a_{11}&a_{12}&\cdots&a_{1n}\\ a_{21}&a_{22}&\cdots&a_{2n}\\ \vdots&&&\vdots\\ a_{n1}&a_{n2}&\cdots&a_{nn}\end{bmatrix},\quad \{T\}=\begin{Bmatrix}T_1\\T_2\\\vdots\\T_n\end{Bmatrix},\quad \{B\}=\begin{Bmatrix}b_1\\b_2\\\vdots\\b_n\end{Bmatrix} \tag{5-21}$$</span>
+<p><span class="math-inline">$n$</span> 既是节点数也是方程阶数；每个方程对应一个节点；<span class="math-inline">$a_{ij}$</span>、<span class="math-inline">$b_i$</span> 为常数（p.98）。</p>
+<h3>图5-3 的九节点算例（全部方程）</h3>
+<p>取 <span class="math-inline">$\Delta x=\Delta y=1$</span>、<span class="math-inline">$Q'=0$</span> 的 <span class="math-inline">$3\times3$</span> 网格，节点编号<strong>列优先</strong>（第 1 列自下而上 1,2,3；第 2 列 4,5,6；第 3 列 7,8,9），边界条件与图5-2 同（<span class="math-inline">$y=0$</span> 给定热流、<span class="math-inline">$y=L_y$</span> 给定温度、<span class="math-inline">$x=0$</span> 对流、<span class="math-inline">$x=L_x$</span> 绝热）：</p>
+<table>
+<thead>
+<tr>
+<th>节点</th>
+<th>所属边界/类型</th>
+<th>差分方程</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>给定热流 <span class="math-inline">$(j=1)$</span></td>
+<td><span class="math-inline">$T_1-T_2=C$</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>对流 <span class="math-inline">$(i=1)$</span></td>
+<td><span class="math-inline">$(\beta+1)T_2-T_5=\beta T_f$</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>给定温度 <span class="math-inline">$(j=3)$</span></td>
+<td><span class="math-inline">$T_3=T_s$</span></td>
+</tr>
+<tr>
+<td>4</td>
+<td>给定热流 <span class="math-inline">$(j=1)$</span></td>
+<td><span class="math-inline">$T_4-T_5=C$</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td>内节点</td>
+<td><span class="math-inline">$-T_2-T_4-T_6-T_8+4T_5=0$</span></td>
+</tr>
+<tr>
+<td>6</td>
+<td>给定温度 <span class="math-inline">$(j=3)$</span></td>
+<td><span class="math-inline">$T_6=T_s$</span></td>
+</tr>
+<tr>
+<td>7</td>
+<td>给定热流 <span class="math-inline">$(j=1)$</span></td>
+<td><span class="math-inline">$T_7-T_8=C$</span></td>
+</tr>
+<tr>
+<td>8</td>
+<td>绝热 <span class="math-inline">$(i=3)$</span></td>
+<td><span class="math-inline">$T_8-T_5=0$</span></td>
+</tr>
+<tr>
+<td>9</td>
+<td>给定温度 <span class="math-inline">$(j=3)$</span></td>
+<td><span class="math-inline">$T_9=T_s$</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>自检</strong>：每个节点恰好一个方程 ✓；每个边界节点只属于一种条件（角点 3、7、9 分别只按给定温度/热流/给定温度处理，其中 7 在 <span class="math-inline">$x=L_x$</span> 绝热与 <span class="math-inline">$y=0$</span> 热流之间按热流处理）✓；<span class="math-inline">$T_8-T_5=0$</span> 与绝热式(5-18) 的"<span class="math-inline">$i=m$</span> 与 <span class="math-inline">$i=m-1$</span> 相减"形式一致 ✓。
+<strong>注</strong>：OCR 中节点 2 的方程第二个下标不可辨（作 <span class="math-inline">$T_1$</span>），按"<span class="math-inline">$i=1$</span> 的对流式只含 <span class="math-inline">$x$</span> 向邻点 <span class="math-inline">$i=2$</span>"应为 <span class="math-inline">$T_5$</span>（列优先编号下 <span class="math-inline">$(2,2)$</span> 即节点 5），见章笔记待校。</p>
+<h2>关键概念</h2>
+<ul>
+<li><a href="069-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95.html" class="wikilink" title="有限差分法">有限差分法</a>：本节是它最干净的形态——只解稳定问题，不必操心时间步长。</li>
+<li><a href="065-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E5%B7%AE%E5%88%86%E7%A8%B3%E5%AE%9A%E6%80%A7%E6%9D%A1%E4%BB%B6.html" class="wikilink" title="差分稳定性条件">差分稳定性条件</a>：本节不涉及（稳定问题无时间步长），但边界节点精度不一致的问题在此埋下伏笔。</li>
+</ul>
+<h2>工程要点</h2>
+<ul>
+<li><strong><span class="math-inline">$[A]$</span> 是稀疏带状矩阵</strong>，大量零元素、非零元素位于主对角线两侧，这类方程组用电子计算机不难求解（p.99）。</li>
+<li><strong>网格疏密完全由计算需要确定</strong>（p.96）：本章后面所有算例的精度都受这一条支配。</li>
+<li><strong>边界条件的"每点归一"规则直接影响程序结构</strong>：编程时按"角点 &gt; 边界 &gt; 内点"的优先级给每个节点打标签，再分支列方程。</li>
+<li>稳定热传导的差分结果只有"形状"意义：焊接温度场本身是不稳定的（热源在动），本节的价值在于<strong>把差商、离散、边界离散、矩阵组装这四件事讲透</strong>，供 §5-2、§5-3 直接搬用。</li>
+</ul>
+<h2>易错点</h2>
+<ol>
+<li><strong>中心差商是一阶导数的二阶精度格式，不是"二阶导数"</strong>。一阶导数的中心差商 <span class="math-inline">$O((\Delta x)^2)$</span>，而二阶差商也是 <span class="math-inline">$O((\Delta x)^2)$</span>——两者精度阶相同但表达式不同，别混。</li>
+<li><strong>式(5-16) 的 <span class="math-inline">$\beta$</span> 是无量纲的</strong> <span class="math-inline">$\alpha\Delta x/\lambda$</span>（Biot 数），不是 <span class="math-inline">$\alpha/\lambda$</span>。</li>
+<li><strong>绝热边界不要写成 <span class="math-inline">$T_{5,j}=0$</span></strong>，是 <span class="math-inline">$T_{5,j}=T_{4,j}$</span>（梯度为零，不是温度为零）。</li>
+<li><strong>给定温度边界是"赋值"而不是"方程"</strong>：它占据一个方程的位置，但形式是 <span class="math-inline">$T=T_s$</span>，直接消去该未知量更快。</li>
+<li><strong>内热源项 <span class="math-inline">$Q'/\lambda$</span> 的符号</strong>取决于 <span class="math-inline">$Q'$</span> 定义为放出还是吸收；本书按"内部作用着热源"即 <span class="math-inline">$+Q'/\lambda$</span>，若为吸热/相变潜热应取负号。</li>
+<li>边界节点用一阶差商列式，会让<strong>整体精度退化为一阶</strong>——这是"边界拉低内节点精度"的经典案例。</li>
+</ol>
+<h2>关联</h2>
+<ul>
+<li>下一节：<a href="037-06-%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86-%C2%A75-2-%E7%94%A8%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95%E8%A7%A3%E4%B8%8D%E7%A8%B3%E5%AE%9A%E7%83%AD%E4%BC%A0%E5%AF%BC%E9%97%AE%E9%A2%98.html" class="wikilink" title="§5-2 用有限差分法解不稳定热传导问题">§5-2 用有限差分法解不稳定热传导问题</a></li>
+<li>章笔记：<a href="039-06-%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86-%E7%AC%AC%E4%BA%94%E7%AB%A0-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E8%A7%A3%E6%B3%95.html" class="wikilink" title="第五章 焊接温度场的有限差分解法">第五章 焊接温度场的有限差分解法</a></li>
+<li>相关概念：<a href="069-09-%E6%A6%82%E5%BF%B5%E5%8D%A1-%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95.html" class="wikilink" title="有限差分法">有限差分法</a></li>
+<li>前置：<a href="012-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%C2%A71-5-%E7%84%8A%E6%8E%A5%E4%BC%A0%E7%83%AD%E8%AE%A1%E7%AE%97%E5%9F%BA%E6%9C%AC%E5%85%AC%E5%BC%8F.html" class="wikilink" title="§1-5 焊接传热计算基本公式">§1-5 焊接传热计算基本公式</a>、<a href="013-02-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E4%BC%A0%E7%83%AD%E5%AD%A6%E5%9F%BA%E7%A1%80-%C2%A71-6-%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6.html" class="wikilink" title="§1-6 边界条件">§1-6 边界条件</a></li>
+</ul>
+    </article>
+    <nav class="pager"><a class="prev" href="notes/035-05-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E7%84%8A%E6%8E%A5%E6%B8%A9%E5%BA%A6%E5%9C%BA%E7%9A%84%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86%E8%A7%A3%E6%B3%95.html">← 第四章 焊接温度场的数值积分解法</a><a class="next" href="notes/037-06-%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86-%C2%A75-2-%E7%94%A8%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95%E8%A7%A3%E4%B8%8D%E7%A8%B3%E5%AE%9A%E7%83%AD%E4%BC%A0%E5%AF%BC%E9%97%AE%E9%A2%98.html">§5-2 用有限差分法解不稳定热传导问题 →</a></nav>
+    <footer class="foot">
+      <a href="https://github.com/2486809961-alt/welding-heat-transfer" target="_blank" rel="noopener">GitHub 仓库</a> ·
+      <a href="../index.html">首页</a> ·
+      个人学习笔记，原书版权归作者与出版社所有
+    </footer>
+  </main>
+</div>
+<script>window.__ROOT__="../";</script>
+<script src="../assets/katex/katex.min.js"></script>
+<script defer src="../assets/katex/contrib/auto-render.min.js"></script>
+<script src="../assets/mermaid.min.js"></script>
+<script src="../assets/app.js"></script>
+</body>
+</html>
