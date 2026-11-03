@@ -16,3 +16,7 @@
 .DS_Store
 .trash/
 *.dsh-backup
+
+# 构建产物（站点发布在 gh-pages 分支）
+public/
+*.zip
