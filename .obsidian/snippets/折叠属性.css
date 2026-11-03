@@ -1,0 +1,54 @@
+/* ============================================================
+   折叠属性（焊接库）
+   属性区（frontmatter）默认折叠成一行，鼠标移入 / 键盘聚焦时展开。
+   ─ 想改成「完全隐藏」：把 --props-fold-height 改成 0px，
+     并启用文件末尾那段 display:none 的注释。
+   ─ 想「始终展开」：删掉本片段即可（或把折叠高度改大）。
+   ============================================================ */
+:root {
+  --props-fold-height: 36px;   /* 折叠时保留的高度 ≈ 一行「属性」标题 */
+}
+
+.metadata-container {
+  transition: max-height .16s ease, opacity .16s ease;
+  border-radius: 6px;
+}
+
+/* 默认折叠：只露出顶部那行「属性」标题 */
+.metadata-container:not(:hover):not(:focus-within) {
+  max-height: var(--props-fold-height);
+  overflow: hidden;
+  opacity: .82;
+}
+
+/* 鼠标移入 / 键盘 Tab 聚焦 → 完整展开 */
+.metadata-container:hover,
+.metadata-container:focus-within {
+  max-height: 80vh;
+  overflow: auto;
+  opacity: 1;
+}
+
+/* 折叠状态给个提示，让人知道可以悬停展开 */
+.metadata-container:not(:hover):not(:focus-within) .metadata-properties-heading {
+  cursor: pointer;
+}
+.metadata-container:not(:hover):not(:focus-within) .metadata-properties-heading::after {
+  content: "折叠中 · 悬停展开";
+  margin-inline-start: auto;
+  padding-inline-start: 8px;
+  font-size: .72em;
+  opacity: .5;
+  white-space: nowrap;
+}
+
+/* 让内层属性列表在展开时可滚动，不撑爆窗口 */
+.metadata-container .metadata-content {
+  max-height: 76vh;
+  overflow: auto;
+}
+
+/* ── 完全隐藏版（如需：取消下面注释，并把 --props-fold-height 设为 0px）──
+.metadata-container,
+.frontmatter-container { display: none !important; }
+*/

@@ -1,0 +1,9 @@
+{
+  "id": "dsh-bridge",
+  "name": "DSH",
+  "version": "1.0.0",
+  "minAppVersion": "1.4.0",
+  "description": "把当前笔记或选中内容发送给本机的 DeepSeek Harness（DSH），实现 Obsidian 与 DSH 双向协作。",
+  "author": "DSH",
+  "isDesktopOnly": true
+}

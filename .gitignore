@@ -1,0 +1,18 @@
+# 教材原书 PDF（版权原因不入库；需要请自备）
+焊接传热学/99 素材/*.pdf
+*.pdf
+
+# Obsidian 运行时与插件二进制
+.obsidian/workspace*.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+.obsidian/plugins/*/main.js
+.obsidian/plugins/*/*.map
+.obsidian/plugins/*/data.json
+.obsidian/plugins/*/data.json.dsh-backup
+.obsidian-mcp/
+
+# 系统垃圾
+.DS_Store
+.trash/
+*.dsh-backup

@@ -1,0 +1,319 @@
+/* Starter Packs — all colors via theme variables so light + dark both work. */
+
+.starter-packs-modal {
+  width: min(640px, 90vw);
+}
+
+/* Pack editor: pinned header + footer, single scrolling body. Keeps the big
+ * outer modal scrollbar (which crowded the close button) from appearing —
+ * there's just one scrollbar, on the body. */
+/* Lift Obsidian's own modal cap so the taller editor can actually use it. */
+.starter-packs-modal.starter-packs-edit-modal {
+  max-height: min(90vh, 1000px);
+}
+.starter-packs-edit-modal .modal-content {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* Grow up to a generous cap so a full plugin list shows plenty before
+   * scrolling, but stay compact when there's little content. */
+  max-height: min(88vh, 980px);
+}
+.starter-packs-edit-header {
+  flex: 0 0 auto;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+.starter-packs-edit-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px 10px 4px 0;
+}
+/* Inside the scrolling body the lists flow (no inner scrollbar) so the body is
+ * the single scroll region. */
+.starter-packs-edit-body .starter-packs-plugin-list {
+  max-height: none;
+  overflow: visible;
+}
+.starter-packs-edit-footer {
+  flex: 0 0 auto;
+  padding-top: 10px;
+  border-top: 1px solid var(--background-modifier-border);
+}
+
+/* Always-visible scrollbars: while a Starter Packs modal is open the plugin
+ * toggles Obsidian's own `body.styled-scrollbars` mode (see src/scrollbars.ts).
+ * Per-element CSS can't force this on macOS overlay-scrollbar setups — the
+ * body class is the only lever — so there's no scrollbar CSS here. */
+
+.starter-packs-button-row {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+.starter-packs-top-row {
+  justify-content: flex-start;
+  margin-top: 0;
+}
+.starter-packs-import-actions {
+  justify-content: flex-start;
+  margin-bottom: 12px;
+}
+
+.starter-packs-picker-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 12px;
+}
+.starter-packs-picker-header h3 {
+  margin: 0;
+}
+.starter-packs-count {
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+}
+
+.starter-packs-picker-controls {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0;
+}
+.starter-packs-picker-controls input[type="search"] {
+  flex: 1;
+}
+
+.starter-packs-progress {
+  margin: 4px 0 10px;
+}
+.starter-packs-progress:empty {
+  display: none;
+}
+.starter-packs-progress-text {
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+  margin-bottom: 4px;
+}
+.starter-packs-progress-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--background-modifier-border);
+  overflow: hidden;
+}
+.starter-packs-progress-fill {
+  height: 100%;
+  background: var(--interactive-accent);
+  border-radius: 999px;
+  transition: width 0.25s ease;
+}
+
+.starter-packs-section-h {
+  margin: 14px 0 6px;
+}
+
+.starter-packs-plugin-list {
+  max-height: 320px;
+  overflow-y: auto;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+  padding: 4px;
+}
+
+.starter-packs-plugin-row,
+.starter-packs-pack-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: var(--radius-s);
+}
+.starter-packs-plugin-row:hover,
+.starter-packs-pack-row:hover {
+  background: var(--background-modifier-hover);
+}
+.starter-packs-pack-row {
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.starter-packs-plugin-label {
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+}
+.starter-packs-plugin-name {
+  color: var(--text-normal);
+}
+.starter-packs-plugin-meta {
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.starter-packs-row-buttons {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.starter-packs-badge {
+  flex-shrink: 0;
+  font-size: var(--font-ui-smaller);
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--background-modifier-border);
+  color: var(--text-muted);
+}
+.starter-packs-badge-enabled {
+  color: var(--text-success);
+  border-color: var(--text-success);
+}
+.starter-packs-badge-disabled {
+  color: var(--text-warning);
+  border-color: var(--text-warning);
+}
+.starter-packs-badge-unknown {
+  color: var(--text-error);
+  border-color: var(--text-error);
+}
+
+.starter-packs-empty {
+  color: var(--text-muted);
+  padding: 12px 4px;
+}
+
+.starter-packs-error {
+  color: var(--text-error);
+  min-height: 1.2em;
+  margin-top: 6px;
+}
+
+.starter-packs-share-meta {
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+.starter-packs-share-section {
+  margin-top: 14px;
+}
+.starter-packs-share-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.starter-packs-share-head h3 {
+  margin: 0;
+}
+.starter-packs-share-desc {
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+  margin: 4px 0 6px;
+}
+.starter-packs-share-value {
+  width: 100%;
+  font-family: var(--font-monospace);
+  font-size: var(--font-ui-smaller);
+  resize: vertical;
+}
+
+.starter-packs-archived .starter-packs-plugin-name {
+  color: var(--text-muted);
+}
+
+/* Per-plugin annotations (edit modal) */
+.starter-packs-annotate h4 {
+  margin: 14px 0 2px;
+}
+.starter-packs-picker-hint {
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+  margin-bottom: 8px;
+}
+.starter-packs-annotate-row {
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+  padding: 8px;
+  margin-bottom: 8px;
+}
+.starter-packs-annotate-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.starter-packs-annotate-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+  flex-shrink: 0;
+}
+.starter-packs-annotate-comment {
+  width: 100%;
+  margin-bottom: 0;
+}
+/* Breathing room between the read-only manifest description and the note box. */
+.starter-packs-annotate-row .starter-packs-plugin-desc {
+  margin: 4px 0 10px;
+}
+
+/* Pack name / your name: control (and its input) take ~half the modal width. */
+.starter-packs-halfwidth .setting-item-control {
+  flex: 0 0 50%;
+}
+.starter-packs-halfwidth .setting-item-control input {
+  width: 100%;
+}
+
+/* Pack description: stack the label above a full-width textarea. */
+.starter-packs-desc-setting {
+  display: block;
+}
+.starter-packs-desc-setting .setting-item-control {
+  padding-top: 6px;
+  width: 100%;
+}
+.starter-packs-desc-setting .setting-item-control textarea {
+  width: 100%;
+}
+
+/* Markdown export toggles (share modal) */
+.starter-packs-md-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 6px 0;
+}
+.starter-packs-md-option {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--font-ui-smaller);
+  color: var(--text-muted);
+}
+
+/* Author comment/description + record-only flag (import preview) */
+.starter-packs-plugin-comment {
+  color: var(--text-normal);
+  font-size: var(--font-ui-smaller);
+  font-style: italic;
+  margin-top: 2px;
+}
+.starter-packs-plugin-desc {
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+  margin-top: 2px;
+}
+.starter-packs-author-flag {
+  margin-left: 8px;
+  font-size: var(--font-ui-smaller);
+  color: var(--text-warning);
+  border: 1px solid var(--text-warning);
+  border-radius: 999px;
+  padding: 0 6px;
+}

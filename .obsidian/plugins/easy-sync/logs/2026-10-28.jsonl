@@ -1,0 +1,5 @@
+{"ts":1793152611514,"cat":"onedrive","lvl":"warn","msg":"requestUrl HTTP error — method=GET, status=404, graphCode=itemNotFound, graphMsg=The resource could not be found., graphInnerCode=none, graphRequestId=84e1b11e-bc4c-4ae5-8355-00a5af882711, url=https://graph.microsoft.com/v1.0/me/drive/special/approot:/vaults/%E7%84%8A%E6%8E%A5/.easy-sync:/children"}
+{"ts":1793152611523,"cat":"onedrive","lvl":"warn","msg":"request failed — attempt=1/3, type=NotFound, method=GET, url=https://graph.microsoft.com/v1.0/me/drive/special/approot:/vaults/%E7%84%8A%E6%8E%A5/.easy-sync:/children"}
+{"ts":1793176193123,"cat":"auth","lvl":"warn","msg":"token refresh failed transiently, staying logged in: 认证网络错误：认证网络错误：net::ERR_NAME_NOT_RESOLVED"}
+{"ts":1793176193140,"cat":"auth","lvl":"warn","msg":"connectivity-triggered refresh attempt failed","data":{"name":"AuthError","type":"NetworkError","message":"认证网络错误：认证网络错误：net::ERR_NAME_NOT_RESOLVED"}}
+{"ts":1793176193407,"cat":"lifecycle","lvl":"warn","msg":"diagnostic log file changed outside this plugin — .obsidian/plugins/easy-sync/logs/2026-10-28.jsonl","data":{"expectedBytes":584,"observedBytes":588}}

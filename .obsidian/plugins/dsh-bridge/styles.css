@@ -1,0 +1,27 @@
+/* DSH Bridge 的最小样式：只在发送 Modal 内生效，避免影响 Obsidian 其他界面 */
+
+.dsh-bridge-modal .dsh-bridge-info {
+  margin: 8px 0 16px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: var(--background-secondary);
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+  line-height: 1.6;
+}
+
+.dsh-bridge-modal textarea.dsh-bridge-instruction {
+  width: 100%;
+  min-height: 84px;
+  resize: vertical;
+  font-family: inherit;
+  font-size: var(--font-ui-medium);
+  line-height: 1.5;
+}
+
+.dsh-bridge-modal .dsh-bridge-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
